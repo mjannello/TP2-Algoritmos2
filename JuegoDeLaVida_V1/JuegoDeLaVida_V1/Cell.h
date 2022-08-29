@@ -1,10 +1,13 @@
 #ifndef Cell_h
 #define Cell_h
 
+#define STATE_DEAD 0
+#define STATE_ALIVE 1
+
 class Cell
 {
 private:
-	int state = 0;
+	int state = STATE_DEAD;
 
 public:
 

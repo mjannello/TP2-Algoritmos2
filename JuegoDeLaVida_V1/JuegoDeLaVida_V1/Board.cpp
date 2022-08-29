@@ -38,6 +38,9 @@ int Board::numberNeighborsAlive(int x, int y) {
 			if (i < 0 || j < 0 || i == BOARD_ROWS || j == BOARD_COLS) {
 				continue;
 			}
+			if (i == x && j == y) {
+				continue;
+			}
 			
 			neighborsAlive += this->matrix_cells[i][j].getState();
 		}

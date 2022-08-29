@@ -32,5 +32,12 @@ Cell& Cell ::operator= (const Cell& b)
 }
 
 Cell* Cell::getNextStatus(int neighborsAlive) {
-	return new Cell(2);
+	//TODO: calculate cell's next state
+	if (this->getState() == STATE_DEAD && neighborsAlive == 3) {
+		return new Cell(STATE_ALIVE);
+	}
+	if (this->getState() == STATE_ALIVE && neighborsAlive != 2 && neighborsAlive != 3) {
+		return new Cell(STATE_DEAD);
+	}
+	return this;
 }
