@@ -16,10 +16,8 @@ void Game::nextTurn()
 {
 	cout<<"Nacimientos: "<<current_board->getBorns();
 	cout << "Muertes: " << current_board->getDeaths();
-	Board aux = *next_board;
 	current_board = next_board;
 	updateNextBoard();
-
 }
 
 void Game::setInitialCells(int x, int y, Cell& cell) {

@@ -29,7 +29,7 @@ Board* Board::defineNewStatus()
 			neighborsAlive = this->numberNeighborsAlive(i, j);
 			Cell *nextCell = currentCell.getNextStatus(neighborsAlive);
 			newStatusBoard->matrix_cells[i][j] = *nextCell;
-			countBornsAndDeaths(currentCell.getState(), nextCell->getState(), i, j);
+			countBornsAndDeaths(currentCell.getState(), nextCell->getState());
 		}
 	}
 
@@ -63,7 +63,7 @@ void Board::printBoard() {
 	}
 }
 
-void Board::countBornsAndDeaths(int currentCellState, int newCellState, int i, int j) {
+void Board::countBornsAndDeaths(int currentCellState, int newCellState) {
 	if (currentCellState == STATE_ALIVE && newCellState == STATE_DEAD) {
 		deaths++;
 	}

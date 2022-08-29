@@ -20,7 +20,7 @@ public:
 	void setCell(int x, int y, Cell& cell);
 	Board* defineNewStatus();
 	int numberNeighborsAlive(int x, int y);
-	void countBornsAndDeaths(int, int, int, int);
+	void countBornsAndDeaths(int, int);
 	void printBoard();
 	int getBorns();
 	int getDeaths();
