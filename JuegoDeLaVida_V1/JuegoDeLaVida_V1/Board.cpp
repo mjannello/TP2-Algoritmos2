@@ -6,6 +6,10 @@ Board::Board() {
 	
 }
 
+Board::~Board()
+{
+}
+
 Cell Board::getCell(int x, int y) {
 	return this->matrix_cells[x][y];
 }

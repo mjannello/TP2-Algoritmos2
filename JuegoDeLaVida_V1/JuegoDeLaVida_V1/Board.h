@@ -12,6 +12,7 @@ private:
 public:
 
 	Board();
+	~Board();
 	Cell getCell(int, int);
 	void setCell(int x, int y, Cell& cell);
 	Board* defineNewStatus();
