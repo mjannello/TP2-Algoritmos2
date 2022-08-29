@@ -9,6 +9,9 @@ class Board
 {
 private:
 	Cell matrix_cells[BOARD_ROWS][BOARD_COLS];
+	int borns = 0;
+	int deaths = 0;
+
 public:
 
 	Board();
@@ -17,7 +20,11 @@ public:
 	void setCell(int x, int y, Cell& cell);
 	Board* defineNewStatus();
 	int numberNeighborsAlive(int x, int y);
+	void countBornsAndDeaths(int, int, int, int);
 	void printBoard();
+	int getBorns();
+	int getDeaths();
+	void cleanBornsAndDeaths();
 };
 #endif
 

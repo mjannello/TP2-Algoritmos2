@@ -1,4 +1,6 @@
 #include "Game.h"
+#include <iostream>
+using namespace std;
 
 Game::Game()
 {
@@ -12,9 +14,11 @@ Game::~Game()
 
 void Game::nextTurn()
 {
+	cout<<"Nacimientos: "<<current_board->getBorns();
+	cout << "Muertes: " << current_board->getDeaths();
 	Board aux = *next_board;
 	current_board = next_board;
-	next_board = aux.defineNewStatus();
+	updateNextBoard();
 
 }
 
