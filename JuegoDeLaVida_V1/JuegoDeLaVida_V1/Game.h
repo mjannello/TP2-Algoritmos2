@@ -14,6 +14,7 @@ public:
 	void setInitialCells(int, int, Cell&);
 	void getCurrentBoardStatus();
 	void getNextBoardStatus();
+	void updateNextBoard();
 };
 
 #endif 

@@ -3,7 +3,7 @@
 Game::Game()
 {
 	current_board = new Board();
-	next_board = current_board->defineNewStatus();
+	updateNextBoard();
 }
 
 Game::~Game()
@@ -20,7 +20,7 @@ void Game::nextTurn()
 
 void Game::setInitialCells(int x, int y, Cell& cell) {
 	current_board->setCell(x, y, cell);
-	next_board = current_board->defineNewStatus();
+	updateNextBoard();
 }
 
 void Game::getCurrentBoardStatus() {
@@ -29,4 +29,8 @@ void Game::getCurrentBoardStatus() {
 
 void Game::getNextBoardStatus() {
 	return this->next_board->printBoard();
+}
+
+void Game::updateNextBoard() {
+	next_board = current_board->defineNewStatus();
 }
