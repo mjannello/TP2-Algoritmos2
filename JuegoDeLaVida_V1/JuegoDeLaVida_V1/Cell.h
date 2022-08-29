@@ -14,6 +14,7 @@ public:
 	void setState(int);
 	int getState();
 	Cell& operator= (const Cell&);
+	Cell* getNextStatus(int neighborsAlive);
 };
 
 #endif 

@@ -30,3 +30,7 @@ Cell& Cell ::operator= (const Cell& b)
 	state = b.state;
 	return *this;
 }
+
+Cell* Cell::getNextStatus(int neighborsAlive) {
+	return new Cell(2);
+}

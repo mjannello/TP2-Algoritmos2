@@ -10,7 +10,8 @@ int main() {
 	b->setCell(5, 5, *c);
 	b->setCell(5, 6, *c);
 	cout << "Starting game:"<< b->getCell(0,0).getState() << endl;
-	b->defineNewStatus();
-	//b->printBoard();
+	b->printBoard();
+	Board* new_b = b->defineNewStatus();
+	new_b->printBoard();
 	return 0;
 }

@@ -21,8 +21,10 @@ Board* Board::defineNewStatus()
 
 	for (int i = 0; i < BOARD_ROWS; i++) {
 		for (int j = 0; j < BOARD_COLS; j++) {
-			Cell current_cell = this->getCell(i, j);
+			Cell currentCell = this->getCell(i, j);
 			neighborsAlive = this->numberNeighborsAlive(i, j);
+			Cell *nextStateCell = currentCell.getNextStatus(neighborsAlive);
+			newStatusBoard->matrix_cells[i][j] = *nextStateCell;
 		}
 	}
 
@@ -40,7 +42,6 @@ int Board::numberNeighborsAlive(int x, int y) {
 			neighborsAlive += this->matrix_cells[i][j].getState();
 		}
 	}
-	cout << neighborsAlive;
 
 	return neighborsAlive;
 }
