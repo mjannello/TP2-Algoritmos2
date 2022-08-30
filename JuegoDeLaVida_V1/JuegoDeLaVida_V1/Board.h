@@ -22,6 +22,7 @@ public:
 	int numberNeighborsAlive(int x, int y);
 	void countBornsAndDeaths(int, int);
 	void printBoard();
+	int getTotalCellsAlive();
 	int getBorns();
 	int getDeaths();
 	void cleanBornsAndDeaths();

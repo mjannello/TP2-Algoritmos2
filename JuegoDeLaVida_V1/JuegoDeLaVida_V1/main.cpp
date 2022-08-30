@@ -10,23 +10,25 @@ int main() {
 
 	Game* game = new Game();
 	game->setInitialCells(0,0, *c);
-
-	/*game->setInitialCells(2, 3, *c);
+	/*
+	game->setInitialCells(2, 3, *c);
 	game->setInitialCells(2, 4, *c);
 	game->setInitialCells(2, 5, *c);
 	*/
+	/*
 	game->getCurrentBoardStatus();
 	cout << '\n';
 	game->getNextBoardStatus();
 	cout << '\n';
 	game->nextTurn();
 	cout << '\n';
+	*/
 	
-	game->getCurrentBoardStatus();
-	game->getNextBoardStatus();
+	game->showGameStatus();
 	game->nextTurn();
 	game->nextTurn();
 	game->nextTurn();
-	
+	game->nextTurn();
+
 	return 0;
 }

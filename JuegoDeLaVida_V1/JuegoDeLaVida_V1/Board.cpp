@@ -63,6 +63,18 @@ void Board::printBoard() {
 	}
 }
 
+int Board::getTotalCellsAlive() {
+	int totalCellsAlive = 0;
+	for (int i = 0; i < BOARD_ROWS; i++) {
+		for (int j = 0; j < BOARD_COLS; j++) {
+			if (matrix_cells[i][j].getState() == STATE_ALIVE) {
+				totalCellsAlive++;
+			}
+		}
+	}
+	return totalCellsAlive;
+}
+
 void Board::countBornsAndDeaths(int currentCellState, int newCellState) {
 	if (currentCellState == STATE_ALIVE && newCellState == STATE_DEAD) {
 		deaths++;
