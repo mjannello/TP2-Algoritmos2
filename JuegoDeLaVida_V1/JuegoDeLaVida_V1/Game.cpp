@@ -85,6 +85,7 @@ void Game::nextTurn()
 	updateLastTurnBorns();
 	updateLastTurnDeaths();
 	current_board = next_board;
+	showGameStatus();
 	updateNextBoard();
 }
 void Game::updateLastTurnBorns() {
@@ -118,7 +119,7 @@ void Game::printContinueMenu() {
 	{
 	case 1:
 		nextTurn();
-		showGameStatus();
+		//showGameStatus();
 		printContinueMenu();
 		break;
 	case 2:
