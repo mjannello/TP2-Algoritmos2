@@ -123,8 +123,9 @@ void Game::printContinueMenu() {
 		break;
 	case 2:
 		current_board = new Board();
-		next_board = nullptr;
+		updateNextBoard();
 		printInitialMenu();
+		printContinueMenu();
 		break;
 	case 3:
 		cout << "Juego terminado!"<<endl;
