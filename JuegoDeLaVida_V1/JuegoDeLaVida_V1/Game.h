@@ -7,6 +7,8 @@ class Game
 private:
 	Board *current_board;
 	Board *next_board;
+	int lastTurnBorns = 0;
+	int lastTurnDeaths = 0;
 	bool gameIsFreezed = false;
 	int turnsFreezed = 0;
 	int turnNumber = 1;
@@ -21,11 +23,15 @@ public:
 	void getNextBoardStatus();
 	void updateNextBoard();
 	void showGameStatus();
+	void updateLastTurnBorns();
+	void updateLastTurnDeaths();
 	void updateTotalBorns();
 	void updateTotalDeaths();
 	void updateFreezeStatus();
 	void updateTurnNumber();
 	void nextTurn();
+	void printInitialMenu();
+	void printContinueMenu();
 
 };
 

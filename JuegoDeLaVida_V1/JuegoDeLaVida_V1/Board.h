@@ -2,8 +2,8 @@
 #define Board_h
 #include "Cell.h"
 
-#define BOARD_ROWS 5
-#define BOARD_COLS 7
+#define BOARD_ROWS 10
+#define BOARD_COLS 10
 
 class Board
 {
