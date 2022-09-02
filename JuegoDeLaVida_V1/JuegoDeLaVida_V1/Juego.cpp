@@ -26,6 +26,7 @@ void avanzarTurno(Juego * juego) {
 	
 	actualizarTablero(juego);
 	actualizarTransicionesTotales(juego);
+	actualizarEstadoCongelado(juego);
 	juego->turno++;
 	
 
@@ -79,6 +80,22 @@ void actualizarTransicionesTotales(Juego * juego) {
 	juego->totalNacimientos += juego->nacimientosUltimoTurno;
 }
 
+void actualizarEstadoCongelado(Juego* juego) {
+
+	if (juego->nacimientosUltimoTurno == 0 && juego->muertesUltimoTurno == 0) {
+		juego->cantidadTurnosCongelado += 1;
+		if (juego->cantidadTurnosCongelado >= 2) {
+			juego->estadoCongelado = true;
+		}
+	}
+	else {
+		juego->cantidadTurnosCongelado = 0;
+		juego->estadoCongelado = false;
+	}
+
+}
+
+
 void imprimirMenuInicial(Juego * juego) {
 	int numeroCelulas, fila, columna;
 	cout << "Ingrese la cantidad de celulas que desea ingresar" << endl;
@@ -117,6 +134,14 @@ void mostrarTablero(Juego * juego){
 
 void mostrarEstadoJuego(Juego * juego) {
 	mostrarTablero(juego);
+	cout << "Celulas vivas: " << contarTotalCelulasVivas(juego->punteroTableroActual) << endl;
+	cout << "Nacimientos: " << juego->totalNacimientos << endl;
+	cout << "Muertes: " << juego->totalMuertes << endl;
+	cout << "Promedio de Nacimientos: " << juego->totalNacimientos / juego->turno << endl;
+	cout << "Promedio de Muertes: " << juego->totalMuertes / juego->turno << endl;
+
+	string mensajeJuegoCongelado = juego->estadoCongelado ? "si" : "no";
+	cout << "Juego congelado: " << mensajeJuegoCongelado << endl;
 }
 	
 
