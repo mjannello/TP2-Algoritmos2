@@ -2,6 +2,10 @@
 
 void initJuego(Juego * juego)
 {
+	juego->estadoCongelado = false;
+	juego->cantidadTurnosCongelado=0;
+	juego->nacimientosUltimoTurno=0, juego->muertesUltimoTurno=0;
+	juego->totalNacimientos=0, juego->totalMuertes=0;
 	juego->punteroTableroActual = &(juego->tableroActual);
 	juego->punteroTableroProximoTurno = &(juego->tableroProximoTurno);
 	initTablero(juego->punteroTableroActual);
