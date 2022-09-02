@@ -2,8 +2,8 @@
 #define TABLERO_H
 #include "Celula.h"
 
-static const int ALTO_MAXIMO = 20;
-static const int ANCHO_MAXIMO = 80;
+static const int ALTO_MAXIMO = 10;
+static const int ANCHO_MAXIMO = 10;
 
 typedef struct {
 	int anchoMaximo;
@@ -12,14 +12,16 @@ typedef struct {
 } Tablero;
 
 void initTablero(Tablero* t);
-void setAnchoMaximo();
-void setAltoMaximo();
 int getAnchoMaximo(Tablero * t);
 int getAltoMaximo(Tablero * t);
-
+void setAnchoMaximo(Tablero* t, int anchoMaximo);
+void setAltoMaximo(Tablero* t, int altoMaximo);
 
 Celula getValor(Tablero * t, int fila, int columna);
 void setValor(Tablero* t, Celula celula, int fila, int columna);
+int contarCantidadVecinosVivos(Tablero* tablero, int x, int y);
+int contarTotalCelulasVivas(Tablero* t);
+void llenarTableroCelulasMuertas(Tablero* t);
 
 
 #endif 
