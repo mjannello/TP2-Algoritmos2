@@ -2,8 +2,8 @@
 #define TABLERO_H
 #include "Celula.h"
 
-static const int ALTO_MAXIMO = 10;
-static const int ANCHO_MAXIMO = 10;
+static const int ALTO_MAXIMO = 20;
+static const int ANCHO_MAXIMO = 80;
 
 typedef struct {
 	int anchoMaximo;
