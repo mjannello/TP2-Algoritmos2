@@ -1,17 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="POO_Version">
+      <UniqueIdentifier>{931d644d-7803-4964-8c0a-6c9d053c1dbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="POO_Version\Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Pointers_Version">
+      <UniqueIdentifier>{8b99caa0-5b3d-477e-83fd-0def609d9e04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pointers_Version\Headers">
+      <UniqueIdentifier>{0f03374b-1ba8-4961-813a-ab6bb46e3701}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pointers_Version\Source Files">
+      <UniqueIdentifier>{09306f8f-cc6a-42a1-b35d-bd82cec2ec36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pointers_Version\Resource Files">
+      <UniqueIdentifier>{841f8dcb-c4ef-4a53-bfb1-506b770c674c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -35,9 +50,6 @@
     <ClCompile Include="Cell.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Board.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -47,13 +59,16 @@
     <ClCompile Include="Celula.h">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="Celula.cpp">
+    <ClCompile Include="Tablero.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Juego.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Tablero.cpp">
+    <ClCompile Include="Celula.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

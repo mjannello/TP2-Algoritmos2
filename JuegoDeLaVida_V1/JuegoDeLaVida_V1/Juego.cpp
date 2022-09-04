@@ -27,7 +27,7 @@ void setEstadoCongelado(Juego * j, bool estadoCongelado) {
 }
 
 void avanzarTurno(Juego * juego) {
-	
+	limpiarUltimasTransiciones(juego);
 	actualizarTablero(juego);
 	actualizarTransicionesTotales(juego);
 	actualizarEstadoCongelado(juego);
@@ -68,6 +68,11 @@ ESTADO_CELULA definirProximoEstadoCelula(Celula celula, int cantidadVecinosVivos
 		return MUERTA;
 	}
 	return getEstado(&celula);
+}
+
+void limpiarUltimasTransiciones(Juego* juego) {
+	juego->muertesUltimoTurno = 0;
+	juego->nacimientosUltimoTurno = 0;
 }
 
 void contarTransiciones(Juego * juego, ESTADO_CELULA estadoCelulaActual, ESTADO_CELULA estadoCelulaNueva) {
@@ -138,11 +143,13 @@ void mostrarTablero(Juego * juego){
 
 void mostrarEstadoJuego(Juego * juego) {
 	mostrarTablero(juego);
+	float promedioMuertes = juego->totalMuertes / juego->turno;
+	float promedioNacimientos = juego->totalNacimientos / juego->turno;
 	cout << "Celulas vivas: " << contarTotalCelulasVivas(juego->punteroTableroActual) << endl;
-	cout << "Nacimientos: " << juego->totalNacimientos << endl;
-	cout << "Muertes: " << juego->totalMuertes << endl;
-	cout << "Promedio de Nacimientos: " << juego->totalNacimientos / juego->turno << endl;
-	cout << "Promedio de Muertes: " << juego->totalMuertes / juego->turno << endl;
+	cout << "Nacimientos: " << juego->nacimientosUltimoTurno << endl;
+	cout << "Muertes: " << juego->muertesUltimoTurno << endl;
+	cout << "Promedio de Nacimientos: " << promedioNacimientos << endl;
+	cout << "Promedio de Muertes: " << promedioMuertes << endl;
 
 	string mensajeJuegoCongelado = juego->estadoCongelado ? "si" : "no";
 	cout << "Juego congelado: " << mensajeJuegoCongelado << endl;
