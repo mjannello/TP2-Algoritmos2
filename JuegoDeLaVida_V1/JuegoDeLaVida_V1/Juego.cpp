@@ -19,13 +19,32 @@ int getTurno(Juego * j) {
 	return j -> turno;
 }
 
-void setTurno(Juego * j, int turno) {
-	j -> turno = turno;
+int getTurnosMaximos(Juego * j) {
+	return j->turnosMaximos;
+}
+
+int getTotalMuertes(Juego * j) {
+	return j->totalMuertes;
+}
+
+
+int getTotalNacimientos(Juego* j) {
+	return j->totalNacimientos;
 }
 
 bool getJuegoEnMarcha(Juego * j) {
 	return j->juegoEnMarcha;
 }
+
+
+void setTurno(Juego* j, int turno) {
+	j->turno = turno;
+}
+
+void setTurnosMaximos(Juego * j, int turnosMaximos) {
+	j->turnosMaximos = turnosMaximos;
+}
+
 void setJuegoEnMarcha(Juego * j, bool juegoEnMarcha) {
 	j->juegoEnMarcha = juegoEnMarcha;
 }
@@ -82,7 +101,7 @@ ESTADO_CELULA definirProximoEstadoCelula(Celula celula, int cantidadVecinosVivos
 	return getEstado(&celula);
 }
 
-void limpiarUltimasTransiciones(Juego* juego) {
+void limpiarUltimasTransiciones(Juego * juego) {
 	juego->muertesUltimoTurno = 0;
 	juego->nacimientosUltimoTurno = 0;
 }
@@ -133,6 +152,8 @@ void imprimirMenuInicial(Juego * juego) {
 		cin >> columna;
 		setCelulaInicial(juego, fila, columna);
 	}
+
+	setTurnosMaximos(juego, turnosMaximos);
 	mostrarTablero(juego);
 
 }
@@ -155,13 +176,23 @@ void mostrarTablero(Juego * juego){
 		}
 		cout << '\n';
 	}
+	cout << '\n';
+}
+bool evaluarTurnosMaximos(Juego* juego) {
+	if (getTurno(juego) == getTurnosMaximos(juego)) {
+		return true;
+	}
+	return false;
 }
 
 void mostrarEstadoJuego(Juego * juego) {
+	
 	mostrarTablero(juego);
-	float promedioMuertes = juego->totalMuertes / juego->turno;
-	float promedioNacimientos = juego->totalNacimientos / juego->turno;
-	cout << "Celulas vivas: " << contarTotalCelulasVivas(juego->punteroTableroActual) << endl;
+	
+	float promedioMuertes = getTurno(juego) == 0? getTotalMuertes(juego) : getTotalMuertes(juego) / getTurno(juego);
+	float promedioNacimientos = getTurno(juego) == 0 ? getTotalNacimientos(juego) : getTotalNacimientos(juego) / getTurno(juego);
+
+	cout << "Células vivas: " << contarTotalCelulasVivas(juego->punteroTableroActual) << endl;
 	cout << "Nacimientos: " << juego->nacimientosUltimoTurno << endl;
 	cout << "Muertes: " << juego->muertesUltimoTurno << endl;
 	cout << "Promedio de Nacimientos: " << promedioNacimientos << endl;
@@ -169,6 +200,7 @@ void mostrarEstadoJuego(Juego * juego) {
 
 	string mensajeJuegoCongelado = juego->estadoCongelado ? "si" : "no";
 	cout << "Juego congelado: " << mensajeJuegoCongelado << endl;
+	cout << endl;
 }
 	
 
@@ -182,10 +214,31 @@ void imprimirMenuContinuacion(Juego * juego) {
 	
 }
 
+void imprimirMensajeTerminacion() {
+	cout << "Juego terminado!" << endl;
+}
+
+void imprimirMensajeCantidadMaximaTurnosAlcanzada() {
+	cout << "Cantidad maxima de turnos alcanzada!" << endl;
+}
+
+void terminarJuego(Juego* juego) {
+	imprimirMensajeTerminacion();
+	setJuegoEnMarcha(juego, false);
+}
+
 	void maquinaDeEstados(Juego * juego) {
+		if (evaluarTurnosMaximos(juego)) {
+			mostrarEstadoJuego(juego);
+			imprimirMensajeCantidadMaximaTurnosAlcanzada();
+			terminarJuego(juego);
+			return;
+		}
+		
 		switch (juego->inputUsuario)
 		{
 			case 1:
+				
 				avanzarTurno(juego);
 				mostrarEstadoJuego(juego);
 				imprimirMenuContinuacion(juego);
@@ -196,8 +249,7 @@ void imprimirMenuContinuacion(Juego * juego) {
 				imprimirMenuContinuacion(juego);
 				break;
 			case 3:
-				cout << "Juego terminado!" << endl;
-				setJuegoEnMarcha(juego, false);
+				terminarJuego(juego);
 				break;
 			default:
 				break;
