@@ -8,6 +8,7 @@ void initJuego(Juego * juego)
 	juego->totalNacimientos=0, juego->totalMuertes=0;
 	juego->punteroTableroActual = &(juego->tableroActual);
 	juego->punteroTableroProximoTurno = &(juego->tableroProximoTurno);
+	setJuegoEnMarcha(juego, true);
 	initTablero(juego->punteroTableroActual);
 	initTablero(juego->punteroTableroProximoTurno);
 	setTurno(juego, 1);
@@ -22,8 +23,19 @@ void setTurno(Juego * j, int turno) {
 	j -> turno = turno;
 }
 
+bool getJuegoEnMarcha(Juego * j) {
+	return j->juegoEnMarcha;
+}
+void setJuegoEnMarcha(Juego * j, bool juegoEnMarcha) {
+	j->juegoEnMarcha = juegoEnMarcha;
+}
+
 void setEstadoCongelado(Juego * j, bool estadoCongelado) {
 	j->estadoCongelado = estadoCongelado;
+}
+
+void setInputUsuario(Juego * j, int inputUsuario) {
+	j->inputUsuario = inputUsuario;
 }
 
 void avanzarTurno(Juego * juego) {
@@ -106,8 +118,12 @@ void actualizarEstadoCongelado(Juego* juego) {
 
 
 void imprimirMenuInicial(Juego * juego) {
+	int turnosMaximos;
 	int numeroCelulas, fila, columna;
-	cout << "Ingrese la cantidad de celulas que desea ingresar" << endl;
+
+	cout << "Ingrese la cantidad de turnos máximos a jugar:" << endl;
+	cin >> turnosMaximos;
+	cout << "Ingrese la cantidad de celulas que desea ingresar:" << endl;
 	cin >> numeroCelulas;
 	for (int i = 0; i < numeroCelulas; i++) {
 		cout << "Celula " << i + 1 << endl;
@@ -157,30 +173,35 @@ void mostrarEstadoJuego(Juego * juego) {
 	
 
 void imprimirMenuContinuacion(Juego * juego) {
-	int input;
+	int inputUsuario;
 	cout << "1.Ejecutar un turno" << endl;
 	cout << "2.Reiniciar juego" << endl;
 	cout << "3.Terminar juego" << endl;
-
-	cin >> input;
-
-	switch (input)
-	{
-	case 1:
-		avanzarTurno(juego);
-		mostrarEstadoJuego(juego);
-		imprimirMenuContinuacion(juego);
-		break;
-	case 2:
-		initJuego(juego);
-		imprimirMenuInicial(juego);
-		imprimirMenuContinuacion(juego);
-		break;
-	case 3:
-		cout << "Juego terminado!" << endl;
-		break;
-	default:
-		break;
-	}
-
+	cin >> inputUsuario;
+	setInputUsuario(juego, inputUsuario);
+	
 }
+
+	void maquinaDeEstados(Juego * juego) {
+		switch (juego->inputUsuario)
+		{
+			case 1:
+				avanzarTurno(juego);
+				mostrarEstadoJuego(juego);
+				imprimirMenuContinuacion(juego);
+				break;
+			case 2:
+				initJuego(juego);
+				imprimirMenuInicial(juego);
+				imprimirMenuContinuacion(juego);
+				break;
+			case 3:
+				cout << "Juego terminado!" << endl;
+				setJuegoEnMarcha(juego, false);
+				break;
+			default:
+				break;
+				
+		}
+}
+	

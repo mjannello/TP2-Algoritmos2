@@ -9,6 +9,8 @@ int main() {
 	initJuego(&j);
 	imprimirMenuInicial(&j);
 	imprimirMenuContinuacion(&j);
-
+	while(getJuegoEnMarcha(&j)) {
+		maquinaDeEstados(&j);
+	}
 	return 0;
 }
