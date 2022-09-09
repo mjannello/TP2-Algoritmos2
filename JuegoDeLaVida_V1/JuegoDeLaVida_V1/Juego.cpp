@@ -1,7 +1,13 @@
 #include "Juego.h"
 
+ 
+  ///////////////////////
+ // metodos iniciales //
+///////////////////////
+
 void initJuego(Juego * juego)
 {
+	/* metodo que inicia un juego */
 	juego->estadoCongelado = false;
 	juego->cantidadTurnosCongelado=0;
 	juego->nacimientosUltimoTurno=0, juego->muertesUltimoTurno=0;
@@ -14,6 +20,17 @@ void initJuego(Juego * juego)
 	setTurno(juego, 1);
 	setEstadoCongelado(juego, false);
 }
+
+void setCelulaInicial(Juego* juego, int fila, int columna) {
+	/* metodo que inicia una celula en la posicion del tablero indicada */
+	Celula c;
+	setEstado(&c, VIVA);
+	setValor(juego->punteroTableroActual, c, fila, columna);
+}
+
+  /////////////
+ // getters //
+/////////////
 
 int getTurno(Juego * j) {
 	return j -> turno;
@@ -36,6 +53,17 @@ bool getJuegoEnMarcha(Juego * j) {
 	return j->juegoEnMarcha;
 }
 
+int getMuertesUltimoTurno(Juego* j) {
+	return j->muertesUltimoTurno;
+}
+
+int getNacimientosUltimoTurno(Juego* j) {
+	return j->nacimientosUltimoTurno;
+}
+
+  /////////////
+ // setters //
+/////////////
 
 void setTurno(Juego* j, int turno) {
 	j->turno = turno;
@@ -57,41 +85,68 @@ void setInputUsuario(Juego * j, int inputUsuario) {
 	j->inputUsuario = inputUsuario;
 }
 
+
+void setMuertesUltimoTurno(Juego * j, int muertesUltimoTurno) {
+	j->muertesUltimoTurno = muertesUltimoTurno;
+}
+
+void setNacimientosUltimoTurno(Juego * j, int nacimientosUltimoTurno) {
+	j->nacimientosUltimoTurno = nacimientosUltimoTurno;
+}
+
+void setCantidadTurnosCongelado(Juego * j, int cantidadTurnosCongelado) {
+	j->cantidadTurnosCongelado = cantidadTurnosCongelado;
+}
+
+  ///////////////////////
+ // metodos de accion //
+///////////////////////
+
+void maquinaDeEstados(Juego* juego) {
+	/* metodo que marca la transicion de estados en el juego */
+	if (evaluarTurnosMaximos(juego)) {
+		mostrarEstadoJuego(juego);
+		imprimirMensajeCantidadMaximaTurnosAlcanzada();
+		terminarJuego(juego);
+		return;
+	}
+
+	switch (juego->inputUsuario)
+	{
+	case 1:
+
+		avanzarTurno(juego);
+		mostrarEstadoJuego(juego);
+		imprimirMenuContinuacion(juego);
+		break;
+	case 2:
+		initJuego(juego);
+		imprimirMenuInicial(juego);
+		imprimirMenuContinuacion(juego);
+		break;
+	case 3:
+		terminarJuego(juego);
+		break;
+	default:
+		break;
+
+	}
+}
+
 void avanzarTurno(Juego * juego) {
+	/* metodo para avanzar hacia el siguiente turno */
 	limpiarUltimasTransiciones(juego);
 	actualizarTablero(juego);
 	actualizarTransicionesTotales(juego);
 	actualizarEstadoCongelado(juego);
 	juego->turno++;
-	
 
 }
-
-void actualizarTablero(Juego * juego) {
-	int anchoMaximo = getAnchoMaximo(juego->punteroTableroActual);
-	int altoMaximo = getAltoMaximo(juego->punteroTableroActual);
-	Tablero * punteroTableroAuxiliar;
-	for (int i = 1; i < altoMaximo; i++)
-	{
-		for (int j = 1; j < anchoMaximo; j++)
-		{
-			Celula celulaActual = getValor(juego->punteroTableroActual, i, j);
-			int cantidadVecinosVivos = contarCantidadVecinosVivos(juego->punteroTableroActual, i, j);
-			ESTADO_CELULA estadoCelulaNueva = definirProximoEstadoCelula(celulaActual, cantidadVecinosVivos);
-			Celula celulaNueva;
-			setEstado(&celulaNueva, estadoCelulaNueva);
-			setValor(juego->punteroTableroProximoTurno, celulaNueva, i, j);
-			contarTransiciones(juego, getEstado(&celulaActual), estadoCelulaNueva);
-		}
-	}
-	punteroTableroAuxiliar = juego->punteroTableroActual;
-	juego->punteroTableroActual = juego->punteroTableroProximoTurno;
-	juego->punteroTableroProximoTurno = punteroTableroAuxiliar;
-}
-
 
 
 ESTADO_CELULA definirProximoEstadoCelula(Celula celula, int cantidadVecinosVivos) {
+	/* metodo para conocer cual sera el proximo estado de una celula segun su estado actual
+	y la cantidad de vecinos vivos que tiene */
 	if (getEstado(&celula) == MUERTA && cantidadVecinosVivos == 3) { 
 		return VIVA; 
 	}
@@ -101,12 +156,8 @@ ESTADO_CELULA definirProximoEstadoCelula(Celula celula, int cantidadVecinosVivos
 	return getEstado(&celula);
 }
 
-void limpiarUltimasTransiciones(Juego * juego) {
-	juego->muertesUltimoTurno = 0;
-	juego->nacimientosUltimoTurno = 0;
-}
-
-void contarTransiciones(Juego * juego, ESTADO_CELULA estadoCelulaActual, ESTADO_CELULA estadoCelulaNueva) {
+void contarTransiciones(Juego* juego, ESTADO_CELULA estadoCelulaActual, ESTADO_CELULA estadoCelulaNueva) {
+	/* metodo para contar transiciones de celulas entre los estados VIVA y MUERTA */
 	if (estadoCelulaActual == VIVA && estadoCelulaNueva == MUERTA) {
 		juego->muertesUltimoTurno++;
 	}
@@ -115,28 +166,78 @@ void contarTransiciones(Juego * juego, ESTADO_CELULA estadoCelulaActual, ESTADO_
 	}
 }
 
-void actualizarTransicionesTotales(Juego * juego) {
-	juego->totalMuertes += juego->muertesUltimoTurno;
-	juego->totalNacimientos += juego->nacimientosUltimoTurno;
+void limpiarUltimasTransiciones(Juego * juego) {
+	/* metodo para borrar (hacer cero) los nacimientos y muertes 
+	del turno anterior */
+	setMuertesUltimoTurno(juego, 0);
+	setNacimientosUltimoTurno(juego, 0);	
 }
 
-void actualizarEstadoCongelado(Juego* juego) {
+bool evaluarTurnosMaximos(Juego * juego) {
+	/* metodo para evaluar si se alcanzo la cantidad
+	maxima de turnos definida por el usuario */
+	if (getTurno(juego) == getTurnosMaximos(juego)) {
+		return true;
+	}
+	return false;
+}
 
-	if (juego->nacimientosUltimoTurno == 0 && juego->muertesUltimoTurno == 0) {
-		juego->cantidadTurnosCongelado += 1;
-		if (juego->cantidadTurnosCongelado >= 2) {
-			juego->estadoCongelado = true;
+void terminarJuego(Juego* juego) {
+	/* metodo para terminar el juego */
+	imprimirMensajeTerminacion();
+	setJuegoEnMarcha(juego, false);
+}
+
+
+
+ ///////////////////////////////////
+// metodos de mensajes y estados //
+//////////////////////////////////
+
+
+void mostrarEstadoJuego(Juego * juego) {
+	/* metodo que muestra el estado general del juego */
+	mostrarTablero(juego);
+	cout << endl;
+	cout << "****************" << endl;
+	cout << "Estado del Juego " << endl;
+	cout << "****************" << endl << endl;
+	float promedioMuertes = getTurno(juego) == 0 ? (float)getTotalMuertes(juego) : getTotalMuertes(juego) / getTurno(juego);
+	float promedioNacimientos = getTurno(juego) == 0 ? (float)getTotalNacimientos(juego) : getTotalNacimientos(juego) / getTurno(juego);
+
+	cout << "Células vivas: " << contarTotalCelulasVivas(juego->punteroTableroActual) << endl;
+	cout << "Nacimientos: " << juego->nacimientosUltimoTurno << endl;
+	cout << "Muertes: " << juego->muertesUltimoTurno << endl;
+	cout << "Promedio de Nacimientos: " << promedioNacimientos << endl;
+	cout << "Promedio de Muertes: " << promedioMuertes << endl;
+
+	string mensajeJuegoCongelado = juego->estadoCongelado ? "si" : "no";
+	cout << "Juego congelado: " << mensajeJuegoCongelado << endl;
+	cout << endl;
+}
+
+void mostrarTablero(Juego * juego) {
+	int anchoMaximo = getAnchoMaximo(juego->punteroTableroActual);
+	int altoMaximo = getAltoMaximo(juego->punteroTableroActual);
+
+	cout << endl;
+	cout << "********" << endl;
+	cout << "Tablero " << endl;
+	cout << "********" << endl << endl;
+	for (int i = 1; i < altoMaximo + 1; i++)
+	{
+		for (int j = 1; j < anchoMaximo + 1; j++)
+		{
+			Celula c = getValor(juego->punteroTableroActual, i, j);
+			cout << getEstado(&c);
 		}
+		cout << '\n';
 	}
-	else {
-		juego->cantidadTurnosCongelado = 0;
-		juego->estadoCongelado = false;
-	}
-
+	cout << '\n';
 }
-
 
 void imprimirMenuInicial(Juego * juego) {
+	/* metodo que imprime el menu inicial y captura parametros de entrada */
 	int turnosMaximos;
 	int numeroCelulas, fila, columna;
 
@@ -165,64 +266,11 @@ void imprimirMenuInicial(Juego * juego) {
 
 	setTurnosMaximos(juego, turnosMaximos);
 	mostrarTablero(juego);
-
 }
 
-void setCelulaInicial(Juego * juego, int fila, int columna) {
-	Celula c;
-	setEstado(&c, VIVA);
-	setValor(juego->punteroTableroActual, c, fila, columna);
-}
-
-void mostrarTablero(Juego * juego){
-	int anchoMaximo = getAnchoMaximo(juego->punteroTableroActual);
-	int altoMaximo = getAltoMaximo(juego->punteroTableroActual);
-	
-	cout << endl;
-	cout << "********" << endl;
-	cout << "Tablero " << endl;
-	cout << "********" << endl << endl;
-	for (int i = 1; i < altoMaximo+1; i++)
-	{
-		for (int j = 1; j < anchoMaximo+1; j++)
-		{
-			Celula c = getValor(juego->punteroTableroActual, i, j);
-			cout << getEstado(&c);
-		}
-		cout << '\n';
-	}
-	cout << '\n';
-}
-bool evaluarTurnosMaximos(Juego* juego) {
-	if (getTurno(juego) == getTurnosMaximos(juego)) {
-		return true;
-	}
-	return false;
-}
-
-void mostrarEstadoJuego(Juego * juego) {
-	
-	mostrarTablero(juego);
-	cout << endl;
-	cout << "****************" << endl;
-	cout << "Estado del Juego " << endl;
-	cout << "****************" << endl << endl;
-	float promedioMuertes = getTurno(juego) == 0? (float)getTotalMuertes(juego) : getTotalMuertes(juego) / getTurno(juego);
-	float promedioNacimientos = getTurno(juego) == 0 ? (float)getTotalNacimientos(juego) : getTotalNacimientos(juego) / getTurno(juego);
-
-	cout << "Células vivas: " << contarTotalCelulasVivas(juego->punteroTableroActual) << endl;
-	cout << "Nacimientos: " << juego->nacimientosUltimoTurno << endl;
-	cout << "Muertes: " << juego->muertesUltimoTurno << endl;
-	cout << "Promedio de Nacimientos: " << promedioNacimientos << endl;
-	cout << "Promedio de Muertes: " << promedioMuertes << endl;
-
-	string mensajeJuegoCongelado = juego->estadoCongelado ? "si" : "no";
-	cout << "Juego congelado: " << mensajeJuegoCongelado << endl;
-	cout << endl;
-}
-	
-
-void imprimirMenuContinuacion(Juego * juego) {
+void imprimirMenuContinuacion(Juego* juego) {
+	/* metodo que imprime el menu de continuacion del juego 
+	y captura los parametros */
 	int inputUsuario;
 
 	cout << endl;
@@ -234,7 +282,6 @@ void imprimirMenuContinuacion(Juego * juego) {
 	cout << "3.Terminar juego" << endl;
 	cin >> inputUsuario;
 	setInputUsuario(juego, inputUsuario);
-	
 }
 
 void imprimirMensajeTerminacion() {
@@ -245,38 +292,69 @@ void imprimirMensajeCantidadMaximaTurnosAlcanzada() {
 	cout << "Cantidad maxima de turnos alcanzada!" << endl;
 }
 
-void terminarJuego(Juego* juego) {
-	imprimirMensajeTerminacion();
-	setJuegoEnMarcha(juego, false);
+
+  //////////////////////////////
+ // metodos de actualizacion //
+//////////////////////////////
+
+
+
+void actualizarTablero(Juego* juego) {
+	/* metodo para modificar el tablero entre un turno y el siguiente */
+	int anchoMaximo = getAnchoMaximo(juego->punteroTableroActual);
+	int altoMaximo = getAltoMaximo(juego->punteroTableroActual);
+	Tablero* punteroTableroAuxiliar;
+
+	for (int i = 1; i < altoMaximo; i++)
+	{
+		for (int j = 1; j < anchoMaximo; j++)
+		{
+			Celula celulaActual = getValor(juego->punteroTableroActual, i, j);
+			int cantidadVecinosVivos = contarCantidadVecinosVivos(juego->punteroTableroActual, i, j);
+			ESTADO_CELULA estadoCelulaNueva = definirProximoEstadoCelula(celulaActual, cantidadVecinosVivos);
+			Celula celulaNueva;
+			setEstado(&celulaNueva, estadoCelulaNueva);
+			setValor(juego->punteroTableroProximoTurno, celulaNueva, i, j);
+			contarTransiciones(juego, getEstado(&celulaActual), estadoCelulaNueva);
+		}
+	}
+
+	//intercambio de punteros entre tablero actual y tablero del turno siguiente
+	punteroTableroAuxiliar = juego->punteroTableroActual;
+	juego->punteroTableroActual = juego->punteroTableroProximoTurno;
+	juego->punteroTableroProximoTurno = punteroTableroAuxiliar;
 }
 
-	void maquinaDeEstados(Juego * juego) {
-		if (evaluarTurnosMaximos(juego)) {
-			mostrarEstadoJuego(juego);
-			imprimirMensajeCantidadMaximaTurnosAlcanzada();
-			terminarJuego(juego);
-			return;
-		}
-		
-		switch (juego->inputUsuario)
-		{
-			case 1:
-				
-				avanzarTurno(juego);
-				mostrarEstadoJuego(juego);
-				imprimirMenuContinuacion(juego);
-				break;
-			case 2:
-				initJuego(juego);
-				imprimirMenuInicial(juego);
-				imprimirMenuContinuacion(juego);
-				break;
-			case 3:
-				terminarJuego(juego);
-				break;
-			default:
-				break;
-				
-		}
+void actualizarTransicionesTotales(Juego* juego) {
+	/* metodo para sumar a las transiciones totales,
+	las ocurridas en el turno anterior */
+	juego->totalMuertes += juego->muertesUltimoTurno;
+	juego->totalNacimientos += juego->nacimientosUltimoTurno;
 }
+
+void actualizarEstadoCongelado(Juego* juego) {
+	/* metodo que actualiza el estado congelado del juego
+	en caso de que el tablero permanezca igual durante 2 turnos */
+	if (getNacimientosUltimoTurno(juego) == 0 && getMuertesUltimoTurno(juego) == 0) {
+		juego->cantidadTurnosCongelado += 1;
+		if (juego->cantidadTurnosCongelado >= 2) {
+			setEstadoCongelado(juego, true);
+		}
+	}
+	else {
+		setCantidadTurnosCongelado(juego, 0);
+		setEstadoCongelado(juego, false);
+	}
+
+}
+
+
+	
+
+
+
+
+
+
+
 	
