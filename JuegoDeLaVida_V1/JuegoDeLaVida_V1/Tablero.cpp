@@ -83,6 +83,7 @@ int contarCantidadVecinosVivos(Tablero * tablero, int x, int y) {
 }
 
 int contarTotalCelulasVivas(Tablero * t) {
+	
 	int totalCelulasVivas = 0;
 	for (int i = 1; i < t->altoMaximo; i++){
 		for (int j = 1; j < t->anchoMaximo; j++){

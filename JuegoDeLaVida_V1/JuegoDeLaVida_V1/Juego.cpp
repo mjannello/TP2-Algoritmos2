@@ -140,16 +140,26 @@ void imprimirMenuInicial(Juego * juego) {
 	int turnosMaximos;
 	int numeroCelulas, fila, columna;
 
+	cout << "=================" << endl;
+	cout << "Juego de la Vida! " << endl;
+	cout << "=================" << endl << endl;
 	cout << "Ingrese la cantidad de turnos máximos a jugar:" << endl;
 	cin >> turnosMaximos;
+	cout << endl;
 	cout << "Ingrese la cantidad de celulas que desea ingresar:" << endl;
 	cin >> numeroCelulas;
+	cout << endl;
 	for (int i = 0; i < numeroCelulas; i++) {
+		cout << "********" << endl;
 		cout << "Celula " << i + 1 << endl;
+		cout << "********" << endl;
+		cout << endl;
 		cout << "Fila: " << endl;
 		cin >> fila;
+		cout << endl;
 		cout << "Columna: " << endl;
 		cin >> columna;
+		cout << endl;
 		setCelulaInicial(juego, fila, columna);
 	}
 
@@ -167,6 +177,11 @@ void setCelulaInicial(Juego * juego, int fila, int columna) {
 void mostrarTablero(Juego * juego){
 	int anchoMaximo = getAnchoMaximo(juego->punteroTableroActual);
 	int altoMaximo = getAltoMaximo(juego->punteroTableroActual);
+	
+	cout << endl;
+	cout << "********" << endl;
+	cout << "Tablero " << endl;
+	cout << "********" << endl << endl;
 	for (int i = 1; i < altoMaximo+1; i++)
 	{
 		for (int j = 1; j < anchoMaximo+1; j++)
@@ -188,7 +203,10 @@ bool evaluarTurnosMaximos(Juego* juego) {
 void mostrarEstadoJuego(Juego * juego) {
 	
 	mostrarTablero(juego);
-	
+	cout << endl;
+	cout << "****************" << endl;
+	cout << "Estado del Juego " << endl;
+	cout << "****************" << endl << endl;
 	float promedioMuertes = getTurno(juego) == 0? (float)getTotalMuertes(juego) : getTotalMuertes(juego) / getTurno(juego);
 	float promedioNacimientos = getTurno(juego) == 0 ? (float)getTotalNacimientos(juego) : getTotalNacimientos(juego) / getTurno(juego);
 
