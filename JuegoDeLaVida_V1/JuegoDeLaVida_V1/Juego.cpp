@@ -224,6 +224,11 @@ void mostrarEstadoJuego(Juego * juego) {
 
 void imprimirMenuContinuacion(Juego * juego) {
 	int inputUsuario;
+
+	cout << endl;
+	cout << "************************************" << endl;
+	cout << "Acciones (ingrese valores 1, 2 o 3): " << endl;
+	cout << "************************************" << endl << endl;
 	cout << "1.Ejecutar un turno" << endl;
 	cout << "2.Reiniciar juego" << endl;
 	cout << "3.Terminar juego" << endl;

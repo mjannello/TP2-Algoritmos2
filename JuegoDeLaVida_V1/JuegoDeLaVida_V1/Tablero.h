@@ -11,7 +11,8 @@ typedef struct {
 	Celula matrizCelulas[ALTO_MAXIMO][ANCHO_MAXIMO];
 } Tablero;
 
-void initTablero(Tablero* t);
+void initTablero(Tablero * t);
+
 int getAnchoMaximo(Tablero * t);
 int getAltoMaximo(Tablero * t);
 void setAnchoMaximo(Tablero * t, int anchoMaximo);

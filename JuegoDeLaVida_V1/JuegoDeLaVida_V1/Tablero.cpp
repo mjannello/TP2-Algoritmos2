@@ -25,6 +25,17 @@ void setAltoMaximo(Tablero * t, int altoMaximo) {
 }
 
 
+Celula getValor(Tablero * t, int fila, int columna) {
+	int _fila = fila - 1;
+	int _columna = columna - 1;
+	return t->matrizCelulas[_fila][_columna];
+}
+
+void setValor(Tablero * t, Celula celula, int fila, int columna) {
+	int _fila = fila - 1;
+	int _columna = columna - 1;
+	t->matrizCelulas[_fila][_columna] = celula;
+}
 
 
 void llenarTableroCelulasMuertas(Tablero * t) {
@@ -38,18 +49,6 @@ void llenarTableroCelulasMuertas(Tablero * t) {
 		}
 
 	}
-}
-
-Celula getValor(Tablero * t, int fila, int columna) {
-	int _fila = fila - 1;
-	int _columna = columna - 1;
-	return t->matrizCelulas[_fila][_columna];
-}
-
-void setValor(Tablero * t, Celula celula, int fila, int columna) {
-	int _fila = fila - 1;
-	int _columna = columna - 1;
-	t->matrizCelulas[_fila][_columna] = celula;
 }
 
 
