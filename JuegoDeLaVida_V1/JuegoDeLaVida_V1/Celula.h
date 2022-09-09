@@ -10,9 +10,24 @@ typedef struct {
 	ESTADO_CELULA estado;
 } Celula;
 
+  ///////////////////////
+ // metodos iniciales //
+///////////////////////
+
 void initCelula(Celula * celula, ESTADO_CELULA estadoInicial);
 
-ESTADO_CELULA getEstado(Celula *);
+
+  /////////////
+ // getters //
+/////////////
+
+ESTADO_CELULA getEstado(Celula * celula);
+
+
+  /////////////
+ // setters //
+/////////////
+
 void setEstado(Celula * celula, ESTADO_CELULA nuevoEstado);
 
 #endif 
