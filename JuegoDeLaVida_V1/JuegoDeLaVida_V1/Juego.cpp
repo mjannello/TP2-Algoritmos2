@@ -167,9 +167,9 @@ void setCelulaInicial(Juego * juego, int fila, int columna) {
 void mostrarTablero(Juego * juego){
 	int anchoMaximo = getAnchoMaximo(juego->punteroTableroActual);
 	int altoMaximo = getAltoMaximo(juego->punteroTableroActual);
-	for (int i = 1; i < altoMaximo; i++)
+	for (int i = 1; i < altoMaximo+1; i++)
 	{
-		for (int j = 1; j < anchoMaximo; j++)
+		for (int j = 1; j < anchoMaximo+1; j++)
 		{
 			Celula c = getValor(juego->punteroTableroActual, i, j);
 			cout << getEstado(&c);
@@ -189,8 +189,8 @@ void mostrarEstadoJuego(Juego * juego) {
 	
 	mostrarTablero(juego);
 	
-	float promedioMuertes = getTurno(juego) == 0? getTotalMuertes(juego) : getTotalMuertes(juego) / getTurno(juego);
-	float promedioNacimientos = getTurno(juego) == 0 ? getTotalNacimientos(juego) : getTotalNacimientos(juego) / getTurno(juego);
+	float promedioMuertes = getTurno(juego) == 0? (float)getTotalMuertes(juego) : getTotalMuertes(juego) / getTurno(juego);
+	float promedioNacimientos = getTurno(juego) == 0 ? (float)getTotalNacimientos(juego) : getTotalNacimientos(juego) / getTurno(juego);
 
 	cout << "Células vivas: " << contarTotalCelulasVivas(juego->punteroTableroActual) << endl;
 	cout << "Nacimientos: " << juego->nacimientosUltimoTurno << endl;

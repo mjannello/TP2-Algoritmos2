@@ -1,5 +1,6 @@
 #include "Tablero.h"
 
+
 void initTablero(Tablero * t) {
 	setAnchoMaximo(t, ANCHO_MAXIMO);
 	setAltoMaximo(t, ALTO_MAXIMO);
@@ -27,9 +28,9 @@ void setAltoMaximo(Tablero * t, int altoMaximo) {
 
 
 void llenarTableroCelulasMuertas(Tablero * t) {
-	for (int i = 1; i < getAltoMaximo(t); i++)
+	for (int i = 1; i < getAltoMaximo(t)+1; i++)
 	{
-		for (int j = 1; j < getAnchoMaximo(t); j++)
+		for (int j = 1; j < getAnchoMaximo(t)+1; j++)
 		{
 			Celula c;
 			setEstado(&c, MUERTA);
@@ -51,6 +52,14 @@ void setValor(Tablero * t, Celula celula, int fila, int columna) {
 	t->matrizCelulas[_fila][_columna] = celula;
 }
 
+
+bool evaluarPosicionValida(Tablero * t, int x, int y) {
+	if (x < 1 || y < 1 || x == getAltoMaximo(t) || y == getAnchoMaximo(t)) {
+		return false;
+	}
+	return true;
+}
+
 int contarCantidadVecinosVivos(Tablero * tablero, int x, int y) {
 
 	int neighborsAlive = 0;
@@ -61,7 +70,7 @@ int contarCantidadVecinosVivos(Tablero * tablero, int x, int y) {
 				continue;
 			}
 
-			if (i < 0 || j < 0 || i == tablero->altoMaximo || j == tablero->anchoMaximo) {
+			if (evaluarPosicionValida(tablero, i, j) == false) {
 				continue;
 			}
 

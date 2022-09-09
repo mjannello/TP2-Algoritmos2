@@ -14,14 +14,14 @@ typedef struct {
 void initTablero(Tablero* t);
 int getAnchoMaximo(Tablero * t);
 int getAltoMaximo(Tablero * t);
-void setAnchoMaximo(Tablero* t, int anchoMaximo);
-void setAltoMaximo(Tablero* t, int altoMaximo);
+void setAnchoMaximo(Tablero * t, int anchoMaximo);
+void setAltoMaximo(Tablero * t, int altoMaximo);
 
 Celula getValor(Tablero * t, int fila, int columna);
-void setValor(Tablero* t, Celula celula, int fila, int columna);
-int contarCantidadVecinosVivos(Tablero* tablero, int x, int y);
-int contarTotalCelulasVivas(Tablero* t);
-void llenarTableroCelulasMuertas(Tablero* t);
-
+void setValor(Tablero * t, Celula celula, int fila, int columna);
+int contarCantidadVecinosVivos(Tablero * tablero, int x, int y);
+int contarTotalCelulasVivas(Tablero * t);
+void llenarTableroCelulasMuertas(Tablero * t);
+bool evaluarPosicionValida(Tablero* t, int x, int y);
 
 #endif 
