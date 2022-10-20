@@ -1,11 +1,6 @@
 #include "Lista.h"
 
 
-/*	IMPLEMENTATION	*/
-
-/* PUBLIC: */
-
-/* POST: Empty list. */
 template<class T> Lista<T>::Lista() {
 	this->primero = NULL;
 	this->tamanio = 0;

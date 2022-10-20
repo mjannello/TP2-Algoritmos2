@@ -6,7 +6,9 @@
 
 class Tablero
 {
+public:
 	Tablero(int x, int y, int z);
+	Lista<Lista<Lista<Casillero*>*>*>* casilleros;
 };
 
 #endif 
