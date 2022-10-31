@@ -4,7 +4,7 @@
 Tablero::Tablero(int x, int y, int z) {
 	//Creo todos los casilleros
 
-	//this->casilleros = new Lista<Lista<Lista<Casillero*>*>*>;
+	this->casilleros = new Lista<Lista<Lista<Casillero*>*>*>;
     
     for (int fila = 0; fila < x; fila++) {
 
