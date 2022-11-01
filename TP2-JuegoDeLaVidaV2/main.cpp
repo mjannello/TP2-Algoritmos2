@@ -1,7 +1,5 @@
 #include "Cell.h"
-//#include "Tablero.cpp"
-//#include "Lista.h"
-//#include "Lista.cpp"
+#include "Lista.h"
 #include <iostream>
 
 using namespace std;
@@ -9,7 +7,11 @@ using namespace std;
 int main() {
     Cell * cell = new Cell(ALIVE);
 
-    cout << cell->getState() << endl;
+    Lista<Cell *> * cellsList = new Lista<Cell*>();
+
+    cellsList->add(cell);
+
+    cout << cellsList->get(1)->getState() << endl;
 
     delete cell;
 
