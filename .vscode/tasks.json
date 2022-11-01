@@ -23,6 +23,28 @@
                 "isDefault": true
             },
             "detail": "Build TP2.exe."
+        },
+
+        {
+            "type": "cppbuild",
+            "label": "Compilar archivo activo en Mac",
+            "command": "/usr/bin/g++",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+                "-Wall",
+                "${fileDirname}/*.cpp",
+                "-o",
+                "${fileDirname}/TP2.out"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "detail": "Build TP2 Mac"
         }
     ],
     "version": "2.0.0"
