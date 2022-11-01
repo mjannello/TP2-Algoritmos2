@@ -1,4 +1,4 @@
-#include "Tablero.h"
+#include "Cell.h"
 //#include "Tablero.cpp"
 //#include "Lista.h"
 //#include "Lista.cpp"
@@ -7,11 +7,11 @@
 using namespace std;
 
 int main() {
-    Tablero * tab = new Tablero(3,3,3);
+    Cell * cell = new Cell(ALIVE);
 
-    //cout << tab->casillero(1,2,1) << endl;
+    cout << cell->getState() << endl;
 
-    delete tab;
+    delete cell;
 
     return 0;
 }
