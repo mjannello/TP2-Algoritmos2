@@ -14,11 +14,24 @@ int main() {
     cout << box2->isEmpty() << endl;
     // cout << box->getData() << endl;
 
-    Board<int>* b = new Board<int>(3, 3, 3);
-    b->append(numero);
-    cout << b->getBox(1, 1, 1)->getData() << endl;
+    Board<int>* board = new Board<int>(3, 3, 3);
+    board->append(numero);
+    
+    Box<int>* actualBox= board->getBox(1, 1, 1);
+    
+    cout << actualBox->getData() << endl;
 
-    delete b;
+    cout << "x: " 
+        << actualBox->getCoordX() 
+        << " y: " 
+        << actualBox->getCoordY() 
+        << " z: " 
+        << actualBox->getCoordZ() << endl;
+
+    cout << actualBox->getAllNeighbours()->contarElementos() << endl;
+
+
+    delete board;
     // Lista<Cell *> * cellsList = new Lista<Cell*>();
 
     // cellsList->add(cell);
