@@ -14,11 +14,11 @@ int main() {
     cout << box2->isEmpty() << endl;
     // cout << box->getData() << endl;
 
-    Board<int>* b = new Board<int>(1, 2, 3);
+    Board<int>* b = new Board<int>(3, 3, 3);
     b->append(numero);
-    cout << b->getBox(0, 0, 0).getData() << endl;
+    cout << b->getBox(1, 1, 1)->getData() << endl;
 
-
+    delete b;
     // Lista<Cell *> * cellsList = new Lista<Cell*>();
 
     // cellsList->add(cell);
