@@ -29,6 +29,8 @@ public:
 	Box<T>* getBox(int x, int y, int z);
 	void fillBox(int x, int y, int z, T element);
 	void append(T element);
+	int countAllBoxes();
+	void fillWith(Lista<T>* elements);
 	Lista<Lista<Lista<Box<T>*>*>*>* boxes;
 };
 
@@ -67,6 +69,7 @@ Board<T>::~Board() {
 
 	for (int row = 1; row <= rows; row++) {
 		for (int col = 1; col <= columns; col++) {
+			// TODO: delete Box list of neighbours 
 			delete this->boxes->get(row)->get(col);
 		}
 		delete this->boxes->get(row);
@@ -98,7 +101,6 @@ void Board<T>::assignNeighbour(Box<T> * box){
 		for (int j = coordY - 1; j < coordY + 2; j++) {
 			for (int k = coordZ - 1; k < coordZ + 2; k++){
 				
-
 				if (i == coordX && j == coordY && k == coordZ) {
 					continue;
 				}
@@ -178,6 +180,25 @@ void Board<T>::append(T element) {
 	}
 	return;
 }
+
+template<class T>
+int Board<T>::countAllBoxes() {
+	return getWidth() * getLength() * getLength();
+
+}
+
+template<class T>
+void Board<T>::fillWith(Lista<T> * elements) {
+	if (elements->contarElementos() > this->countAllBoxes()) {
+		throw "Too much elements: cannot be added to the Board";
+	}
+	while (elements->avanzarCursor()) {
+		T element = elements->getCursor();
+		this->append(element);
+
+	}
+}
+
 
 
 

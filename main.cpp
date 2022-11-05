@@ -2,6 +2,7 @@
 #include "Board.h"
 #include "Box.h"
 #include <iostream>
+#include "Cell.h"
 
 using namespace std;
 
@@ -14,10 +15,10 @@ int main() {
     cout << box2->isEmpty() << endl;
     // cout << box->getData() << endl;
 
-    Board<int>* board = new Board<int>(3, 3, 3);
+    Board<int>* board = new Board<int>(10, 5, 4);
     board->append(numero);
     
-    Box<int>* actualBox= board->getBox(3,3,3);
+    Box<int>* actualBox= board->getBox(1,1,1);
     
     cout << actualBox->getData() << endl;
     /*
@@ -30,6 +31,7 @@ int main() {
         */
     cout << actualBox->getAllNeighbours()->contarElementos() << endl;
     
+    // print all neighbours
     
     Lista<Box<int>*> * neighbours = actualBox->getAllNeighbours();
     
@@ -41,17 +43,20 @@ int main() {
     }
     
     
-
     delete board;
 
-    cout << board->getHeight() << endl;
-    // Lista<Cell *> * cellsList = new Lista<Cell*>();
+    Board<int>* newBoard = new Board<int>(5, 5, 5);
+    Lista<int>* elements = new Lista<int>();
+    for (int i = 1; i <= 125; i++)
+    {
+        elements->add(i);
+    }
+    newBoard->fillWith(elements);
+    cout <<"element in newBoard: " << newBoard->getBox(5,5,5)->getData() << endl;
 
-    // cellsList->add(cell);
-
-    // cout << cellsList->get(1)->getState() << endl;
-
-    // delete cell;
-
+    /*
+    Board<Cell> * cellBoard = new Board<Cell>(3,3,3);
+    cout<< "cell board: " << cellBoard->getBox(1, 1, 1) << endl;
+    */
     return 0;
 }
