@@ -60,9 +60,9 @@ Board<T>::Board(int width, int length, int height) {
 
 template<class T>
 void Board<T>::assignNeighbours() {
-	for (int x = 1; x <= getWidth(); x++){
-		for (int y = 1; y <= getLength(); y++){
-			for (int z = 1; z <= getHeight(); z++){
+	for (int x = 1; x <= getWidth(); x++) {
+		for (int y = 1; y <= getLength(); y++) {
+			for (int z = 1; z <= getHeight(); z++) {
 				Box<T>* actualBox = getBox(x, y, z);
 				assignNeighbour(actualBox);
 			}
@@ -77,10 +77,15 @@ void Board<T>::assignNeighbour(Box<T> * box){
 	int coordY = box->getCoordY();
 	int coordZ = box->getCoordZ();
 
-	for (int i = coordX-1; i < coordX+2; i++){
-		for (int j = coordY - 1; j < coordY+2; j++) {
-			for (int k = coordZ-1; k < coordZ+2; k++){
+	for (int i = coordX - 1; i < coordX + 2; i++){
+		for (int j = coordY - 1; j < coordY + 2; j++) {
+			for (int k = coordZ - 1; k < coordZ + 2; k++){
+				
 
+				if (i == coordX && j == coordY && k == coordZ) {
+				cout<< "breaking in:" << i << " " << j << " " << k << endl;
+					continue;
+				}
 				int validCoordX = validateEdges(i, getWidth());
 				int validCoordY = validateEdges(j, getLength());
 				int validCoordZ = validateEdges(k, getHeight());
@@ -94,7 +99,7 @@ void Board<T>::assignNeighbour(Box<T> * box){
 
 template<class T>
 int Board<T>::validateEdges(int coord, int edge) {
-	int validCoord = coord < edge ? coord : 1;
+	int validCoord = coord <= edge ? coord : 1;
 	validCoord = coord < 1 ? edge : validCoord;
 	return validCoord;
 }
@@ -142,11 +147,11 @@ void Board<T>::fillBox(int x, int y, int z, T element) {
 
 template<class T>
 void Board<T>::append(T element) {
-	for (int x = 1; x < getWidth(); x++)
+	for (int x = 1; x <= getWidth(); x++)
 	{
-		for (int y = 1; y < getLength(); y++)
+		for (int y = 1; y <= getLength(); y++)
 		{
-			for (int z = 1; z < getHeight(); z++)
+			for (int z = 1; z <= getHeight(); z++)
 			{
 				if (getBox(x, y, z)->isEmpty()) {
 					fillBox(x, y, z, element);
