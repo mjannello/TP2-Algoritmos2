@@ -16,6 +16,7 @@ public:
 	int height;
 
 	Board(int width, int length, int height);
+	~Board();
 	void assignNeighbours();
 	void assignNeighbour(Box<T>* box);
 	int validateEdges(int coord, int edge);
@@ -58,6 +59,22 @@ Board<T>::Board(int width, int length, int height) {
 	assignNeighbours();
 }
 
+template <class T>
+Board<T>::~Board() {
+
+	int rows = getWidth();
+	int columns = getLength();
+
+	for (int row = 1; row <= rows; row++) {
+		for (int col = 1; col <= columns; col++) {
+			delete this->boxes->get(row)->get(col);
+		}
+		delete this->boxes->get(row);
+	}
+	delete this->boxes;
+}
+
+
 template<class T>
 void Board<T>::assignNeighbours() {
 	for (int x = 1; x <= getWidth(); x++) {
@@ -83,7 +100,6 @@ void Board<T>::assignNeighbour(Box<T> * box){
 				
 
 				if (i == coordX && j == coordY && k == coordZ) {
-				cout<< "breaking in:" << i << " " << j << " " << k << endl;
 					continue;
 				}
 				int validCoordX = validateEdges(i, getWidth());

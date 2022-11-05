@@ -33,7 +33,7 @@ int main() {
     
     Lista<Box<int>*> * neighbours = actualBox->getAllNeighbours();
     
-    for (int i = 1; i < 26; i++)
+    for (int i = 1; i < 27; i++)
         {
         Box<int>* neighbour = neighbours->get(i);
         cout <<"x: "<< neighbour->getCoordX() << " y: " << neighbour->getCoordY()
@@ -43,6 +43,8 @@ int main() {
     
 
     delete board;
+
+    cout << board->getHeight() << endl;
     // Lista<Cell *> * cellsList = new Lista<Cell*>();
 
     // cellsList->add(cell);
