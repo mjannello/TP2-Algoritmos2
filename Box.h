@@ -5,7 +5,7 @@
 #define NULL 0
 #endif /* NULL */
 
-#include "Lista.h" 
+#include "List.h" 
 
 #include <iostream>
 using namespace std;
@@ -18,7 +18,7 @@ private:
     int coordX;
     int coordY;
     int coordZ;
-    Lista<Box<T>*> * neighbours;
+    List<Box<T>*> * neighbours;
 
 public:
     Box();
@@ -39,7 +39,7 @@ public:
     void applyNeighboursBehaviour();
 
 
-    Lista<Box<T>*>* getAllNeighbours();
+    List<Box<T>*>* getAllNeighbours();
 
 };
 
@@ -62,7 +62,7 @@ Box<T>::Box(int x, int y, int z) {
     setCoordX(x);
     setCoordY(y);
     setCoordZ(z);
-    this->neighbours = new Lista<Box<T>*>();
+    this->neighbours = new List<Box<T>*>();
 }
 
 template<class T>
@@ -122,8 +122,8 @@ void Box<T>::addNeighbour(Box<T>* neighbour) {
 template<class T>
 void Box<T>::applyNeighboursBehaviour()
 {
-    int cantidadVecinos = getAllNeighbours()->contarElementos();
-    Lista<Box<T>*>* vecinos = getAllNeighbours();
+    int cantidadVecinos = getAllNeighbours()->countElements();
+    List<Box<T>*>* vecinos = getAllNeighbours();
     for (int i = 1; i <= cantidadVecinos; i++)
     {
         Box* box = vecinos->get(i);
@@ -134,7 +134,7 @@ void Box<T>::applyNeighboursBehaviour()
 }
 
 template<class T>
-Lista<Box<T>*>* Box<T>::getAllNeighbours() {
+List<Box<T>*>* Box<T>::getAllNeighbours() {
     return this->neighbours;
 }
 

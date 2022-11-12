@@ -1,4 +1,4 @@
-#include "Lista.h"
+#include "List.h"
 #include "Board.h"
 #include "Box.h"
 #include "Cell.h"
@@ -43,7 +43,7 @@ int main() {
     delete board;*/
     int lado = 3;
     Board<Cell*>* newBoard = new Board<Cell*>(lado, lado, 4);
-    Lista<Cell*>* elements = new Lista<Cell*>();
+    List<Cell*>* elements = new List<Cell*>();
     cout << newBoard->countAllBoxes() << endl;
     for (int i = 1; i <= newBoard->countAllBoxes(); i++)
     {

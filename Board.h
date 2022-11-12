@@ -1,7 +1,7 @@
 #ifndef BOARD_H
 #define BOARD_H
 
-#include "Lista.h"
+#include "List.h"
 #include "Box.h"
 
 
@@ -14,7 +14,7 @@ public:
 	int width;
 	int length;
 	int height;
-	Lista<Lista<Lista<Box<T>*>*>*>* boxes;
+	List<List<List<Box<T>*>*>*>* boxes;
 
 	Board(int width, int length, int height);
 	~Board();
@@ -31,7 +31,7 @@ public:
 	void fillBox(int x, int y, int z, T element);
 	void append(T element);
 	int countAllBoxes();
-	void fillWith(Lista<T>* elements);
+	void fillWith(List<T>* elements);
 	void defineNewStates();
 };
 
@@ -44,13 +44,13 @@ Board<T>::Board(int width, int length, int height) {
 	setLength(length);
 	setHeight(height);
 	
-	this->boxes = new Lista<Lista<Lista<Box<T>*>*>*>;
+	this->boxes = new List<List<List<Box<T>*>*>*>;
 
 	for (int x = 1; x <= width; x++) {
-		Lista<Lista<Box<T>*>*>* row = new Lista<Lista<Box<T>*>*>;
+		List<List<Box<T>*>*>* row = new List<List<Box<T>*>*>;
 		this->boxes->add(row);
 		for (int y = 1; y <= length; y++) {
-			Lista<Box<T>*>* column = new Lista<Box<T>*>;
+			List<Box<T>*>* column = new List<Box<T>*>;
 			row->add(column);
 			for (int z = 1; z <= height; z++) {
 				Box<T>* box = new Box<T>(x,y,z);
@@ -189,12 +189,12 @@ int Board<T>::countAllBoxes() {
 }
 
 template<class T>
-void Board<T>::fillWith(Lista<T> * elements) {
-	if (elements->contarElementos() > this->countAllBoxes()) {
+void Board<T>::fillWith(List<T> * elements) {
+	if (elements->countElements() > this->countAllBoxes()) {
 		throw "Too much elements: cannot be added to the Board";
 	}
-	elements->reiniciarCursor();
-	while (elements->avanzarCursor()) {
+	elements->resetCursor();
+	while (elements->moveCursor()) {
 		T element = elements->getCursor();
 		this->append(element);
 
