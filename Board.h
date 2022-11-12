@@ -184,7 +184,7 @@ void Board<T>::append(T element) {
 
 template<class T>
 int Board<T>::countAllBoxes() {
-	return getWidth() * getLength() * getLength();
+	return getWidth() * getLength() * getHeight();
 
 }
 
@@ -193,6 +193,7 @@ void Board<T>::fillWith(Lista<T> * elements) {
 	if (elements->contarElementos() > this->countAllBoxes()) {
 		throw "Too much elements: cannot be added to the Board";
 	}
+	elements->reiniciarCursor();
 	while (elements->avanzarCursor()) {
 		T element = elements->getCursor();
 		this->append(element);
@@ -202,17 +203,13 @@ void Board<T>::fillWith(Lista<T> * elements) {
 
 template<class T>
 void Board<T>::defineNewStates() {
-	int width, length, high;
-	width = getWidth();
-	for (int x = 1; width; x++){
+	for (int x = 1; x <= getWidth(); x++){
 		for (int y = 1; y <= getLength(); y++){
-			for (int z = 1; z <= getHeight(); z++){
-				//if (x == 1 && y == 2 && z == 1)
-					getBox(x, y, x)->applyNeighboursBehaviour();
+			for (int z = 1; z <= getHeight(); z++) {
+				getBox(x, y, z)->applyNeighboursBehaviour();
 			}
 		}
 	}
-	return;
 }
 
 

@@ -7,6 +7,9 @@
 
 #include "Lista.h" 
 
+#include <iostream>
+using namespace std;
+
 template<class T>
 class Box {
 
@@ -124,9 +127,10 @@ void Box<T>::applyNeighboursBehaviour()
     for (int i = 1; i <= cantidadVecinos; i++)
     {
         Box* box = vecinos->get(i);
-        T celula = box->getData();
-        celula->applyBehaviour(this->data);
+        T vecino = box->getData();
+        vecino->applyBehaviour(this->data);
     }
+
 }
 
 template<class T>

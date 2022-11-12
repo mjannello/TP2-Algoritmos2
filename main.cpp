@@ -1,8 +1,8 @@
 #include "Lista.h"
 #include "Board.h"
 #include "Box.h"
-#include <iostream>
 #include "Cell.h"
+#include <iostream>
 
 using namespace std;
 
@@ -42,9 +42,10 @@ int main() {
 
     delete board;*/
     int lado = 3;
-    Board<Cell*>* newBoard = new Board<Cell*>(lado, lado, lado);
+    Board<Cell*>* newBoard = new Board<Cell*>(lado, lado, 4);
     Lista<Cell*>* elements = new Lista<Cell*>();
-    for (int i = 1; i <= lado*lado*lado; i++)
+    cout << newBoard->countAllBoxes() << endl;
+    for (int i = 1; i <= newBoard->countAllBoxes(); i++)
     {
         Cell* cell = new Cell(ALIVE);
         cell->debugInt = i;
@@ -52,7 +53,7 @@ int main() {
     }
     newBoard->fillWith(elements);
     newBoard->defineNewStates();
-    cout <<"element in newBoard: " << newBoard->getBox(1,2,1)->getData()->debugInt << endl;
+    cout <<"element in newBoard: " << newBoard->getBox(3,3,4)->getData()->debugInt << endl;
     
     /*
     Board<Cell> * cellBoard = new Board<Cell>(3,3,3);
