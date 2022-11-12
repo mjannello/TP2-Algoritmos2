@@ -1,5 +1,27 @@
 #include "Cell.h"
 
-Cell::Cell(){}
+Cell::Cell(CellState newState)
+{
+    this->state = newState;
+}
 
-Cell::~Cell(){}
+Cell::~Cell() {}
+
+void Cell::setState(CellState newState)
+{
+    this->state = newState;
+}
+
+CellState Cell::getState()
+{
+    return this->state;
+}
+
+bool Cell::isAlive()
+{
+    return this->getState() == ALIVE ? true : false;
+}
+
+void Cell::applyBehaviour(Cell* otherCell) {
+    otherCell->debugInt++;
+}

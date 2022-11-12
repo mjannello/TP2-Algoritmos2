@@ -31,8 +31,10 @@ public:
 
     T getData();
     bool isEmpty();
-
     void addNeighbour(Box<T>* neighbour);
+    
+    void applyNeighboursBehaviour();
+
 
     Lista<Box<T>*>* getAllNeighbours();
 
@@ -112,6 +114,19 @@ bool Box<T>::isEmpty(){
 template<class T>
 void Box<T>::addNeighbour(Box<T>* neighbour) {
     this->neighbours->add(neighbour);
+}
+
+template<class T>
+void Box<T>::applyNeighboursBehaviour()
+{
+    int cantidadVecinos = getAllNeighbours()->contarElementos();
+    Lista<Box<T>*>* vecinos = getAllNeighbours();
+    for (int i = 1; i <= cantidadVecinos; i++)
+    {
+        Box* box = vecinos->get(i);
+        T celula = box->getData();
+        celula->applyBehaviour(this->data);
+    }
 }
 
 template<class T>

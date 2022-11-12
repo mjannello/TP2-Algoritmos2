@@ -32,7 +32,7 @@ public:
 	void append(T element);
 	int countAllBoxes();
 	void fillWith(Lista<T>* elements);
-	void applyNeighboursBehaviour();
+	void defineNewStates();
 };
 
 #include "Board.h"
@@ -201,9 +201,20 @@ void Board<T>::fillWith(Lista<T> * elements) {
 }
 
 template<class T>
-void Board<T>::applyNeighboursBehaviour() {
-
+void Board<T>::defineNewStates() {
+	int width, length, high;
+	width = getWidth();
+	for (int x = 1; width; x++){
+		for (int y = 1; y <= getLength(); y++){
+			for (int z = 1; z <= getHeight(); z++){
+				//if (x == 1 && y == 2 && z == 1)
+					getBox(x, y, x)->applyNeighboursBehaviour();
+			}
+		}
+	}
+	return;
 }
+
 
 
 
