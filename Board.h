@@ -14,6 +14,7 @@ public:
 	int width;
 	int length;
 	int height;
+	Lista<Lista<Lista<Box<T>*>*>*>* boxes;
 
 	Board(int width, int length, int height);
 	~Board();
@@ -31,7 +32,7 @@ public:
 	void append(T element);
 	int countAllBoxes();
 	void fillWith(Lista<T>* elements);
-	Lista<Lista<Lista<Box<T>*>*>*>* boxes;
+	void applyNeighboursBehaviour();
 };
 
 #include "Board.h"
@@ -83,8 +84,8 @@ void Board<T>::assignNeighbours() {
 	for (int x = 1; x <= getWidth(); x++) {
 		for (int y = 1; y <= getLength(); y++) {
 			for (int z = 1; z <= getHeight(); z++) {
-				Box<T>* actualBox = getBox(x, y, z);
-				assignNeighbour(actualBox);
+				Box<T>* currentBox = getBox(x, y, z);
+				assignNeighbour(currentBox);
 			}
 		}
 	}
@@ -199,6 +200,10 @@ void Board<T>::fillWith(Lista<T> * elements) {
 	}
 }
 
+template<class T>
+void Board<T>::applyNeighboursBehaviour() {
+
+}
 
 
 
