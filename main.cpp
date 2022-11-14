@@ -41,19 +41,19 @@ int main() {
     
 
     delete board;*/
+    
     int lado = 3;
     Board<Cell*>* newBoard = new Board<Cell*>(lado, lado, 4);
     List<Cell*>* elements = new List<Cell*>();
-    cout << newBoard->countAllBoxes() << endl;
-    for (int i = 1; i <= newBoard->countAllBoxes(); i++)
+    for (unsigned int i = 1; i <= newBoard->countAllBoxes(); i++)
     {
-        Cell* cell = new Cell(ALIVE);
+        Cell* cell = new RadioactiveCell();
         cell->debugInt = i;
         elements->add(cell);
     }
     newBoard->fillWith(elements);
     newBoard->defineNewStates();
-    cout <<"element in newBoard: " << newBoard->getBox(3,3,4)->getData()->debugInt << endl;
+    cout <<"element in newBoard: " << newBoard->getBox(1,1,1)->getData()->debugInt << endl;
     
     /*
     Board<Cell> * cellBoard = new Board<Cell>(3,3,3);

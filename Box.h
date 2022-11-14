@@ -40,6 +40,8 @@ public:
 
 
     List<Box<T>*>* getAllNeighbours();
+    List<T>* getElementsOfNeighbours();
+    void nextState();
 
 };
 
@@ -120,6 +122,12 @@ void Box<T>::addNeighbour(Box<T>* neighbour) {
 }
 
 template<class T>
+List<Box<T>*>* Box<T>::getAllNeighbours() {
+    return this->neighbours;
+}
+
+
+template<class T>
 void Box<T>::applyNeighboursBehaviour()
 {
     int cantidadVecinos = getAllNeighbours()->countElements();
@@ -133,9 +141,25 @@ void Box<T>::applyNeighboursBehaviour()
 
 }
 
+
 template<class T>
-List<Box<T>*>* Box<T>::getAllNeighbours() {
-    return this->neighbours;
+List<T>* Box<T>::getElementsOfNeighbours(){
+    List<T>* elements = new List<T>();
+    List<Box<T>*>* neighbours = getAllNeighbours();
+    for (unsigned int i = 1; i <= neighbours->countElements(); i++)
+    {
+        T element = neighbours->get(i)->getData();
+        elements->add(element);
+    }
+    return elements;
+
 }
+
+template<class T>
+void Box<T>::nextState() {
+    List<T>* elements = getElementsOfNeighbours();
+    this->getData()->applyNextStateStrategy(elements);
+}
+
 
 #endif
