@@ -5,12 +5,15 @@
 
 class CellBehaviour {
 public:
-    void apply(CellGenes * fatherGenes, CellGenes* childGenes);
+    int debugBehaviourInt = 0;
+
+    virtual void apply(CellGenes* fatherGenes, CellGenes* childGenes);
 };
 
 
 class RadiactiveBehaviour : public CellBehaviour {
 public:
+    int debugBehaviourInt = 1;
     void apply(CellGenes* fatherGenes, CellGenes* childGenes);
 };
 

@@ -18,7 +18,7 @@ private:
     int coordX;
     int coordY;
     int coordZ;
-    List<Box<T>*> * neighbours;
+    List<Box<T>*>* neighbours;
 
 public:
     Box();
@@ -35,7 +35,7 @@ public:
     T getData();
     bool isEmpty();
     void addNeighbour(Box<T>* neighbour);
-    
+
     void applyNeighboursBehaviour();
 
 
@@ -49,12 +49,12 @@ public:
 
 
 
-template<class T> 
+template<class T>
 Box<T>::Box() {
     this->data = NULL;
 }
 
-template<class T> 
+template<class T>
 Box<T>::Box(T data) {
     setData(data);
 }
@@ -111,7 +111,7 @@ T Box<T>::getData() {
 }
 
 template<class T>
-bool Box<T>::isEmpty(){
+bool Box<T>::isEmpty() {
     return this->data == NULL;
 }
 
@@ -143,7 +143,7 @@ void Box<T>::applyNeighboursBehaviour()
 
 
 template<class T>
-List<T>* Box<T>::getElementsOfNeighbours(){
+List<T>* Box<T>::getElementsOfNeighbours() {
     List<T>* elements = new List<T>();
     List<Box<T>*>* neighbours = getAllNeighbours();
     for (unsigned int i = 1; i <= neighbours->countElements(); i++)

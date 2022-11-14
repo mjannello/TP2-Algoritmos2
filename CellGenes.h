@@ -7,8 +7,8 @@ private:
 public:
 	CellGenes();
 	CellGenes(int genes[]);
-	void setGenes(int gen[]);
-	int * getGenes();
+	void setGenesValues(int gen[]);
+	int* getGenesValues();
 	int getGenesCount();
 };
 #endif

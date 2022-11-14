@@ -43,7 +43,7 @@ Board<T>::Board(int width, int length, int height) {
 	setWidth(width);
 	setLength(length);
 	setHeight(height);
-	
+
 	this->boxes = new List<List<List<Box<T>*>*>*>;
 
 	for (int x = 1; x <= width; x++) {
@@ -53,7 +53,7 @@ Board<T>::Board(int width, int length, int height) {
 			List<Box<T>*>* column = new List<Box<T>*>;
 			row->add(column);
 			for (int z = 1; z <= height; z++) {
-				Box<T>* box = new Box<T>(x,y,z);
+				Box<T>* box = new Box<T>(x, y, z);
 				column->add(box);
 			}
 		}
@@ -92,16 +92,16 @@ void Board<T>::assignNeighbours() {
 }
 
 template<class T>
-void Board<T>::assignNeighbour(Box<T> * box){
+void Board<T>::assignNeighbour(Box<T>* box) {
 
 	int coordX = box->getCoordX();
 	int coordY = box->getCoordY();
 	int coordZ = box->getCoordZ();
 
-	for (int i = coordX - 1; i < coordX + 2; i++){
+	for (int i = coordX - 1; i < coordX + 2; i++) {
 		for (int j = coordY - 1; j < coordY + 2; j++) {
-			for (int k = coordZ - 1; k < coordZ + 2; k++){
-				
+			for (int k = coordZ - 1; k < coordZ + 2; k++) {
+
 				if (i == coordX && j == coordY && k == coordZ) {
 					continue;
 				}
@@ -109,7 +109,7 @@ void Board<T>::assignNeighbour(Box<T> * box){
 				int validCoordY = validateEdges(j, getLength());
 				int validCoordZ = validateEdges(k, getHeight());
 
-				Box<T> * neighbour = getBox(validCoordX, validCoordY, validCoordZ);
+				Box<T>* neighbour = getBox(validCoordX, validCoordY, validCoordZ);
 				box->addNeighbour(neighbour);
 			}
 		}
@@ -189,7 +189,7 @@ unsigned int Board<T>::countAllBoxes() {
 }
 
 template<class T>
-void Board<T>::fillWith(List<T> * elements) {
+void Board<T>::fillWith(List<T>* elements) {
 	if (elements->countElements() > this->countAllBoxes()) {
 		throw "Too much elements: cannot be added to the Board";
 	}
@@ -203,8 +203,8 @@ void Board<T>::fillWith(List<T> * elements) {
 
 template<class T>
 void Board<T>::defineNewStates() {
-	for (int x = 1; x <= getWidth(); x++){
-		for (int y = 1; y <= getLength(); y++){
+	for (int x = 1; x <= getWidth(); x++) {
+		for (int y = 1; y <= getLength(); y++) {
 			for (int z = 1; z <= getHeight(); z++) {
 				getBox(x, y, z)->nextState();
 			}

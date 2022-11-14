@@ -1,22 +1,26 @@
 
 #include "CellBehaviour.h"
+#include <iostream>
+using namespace std;
 
 
-void CellBehaviour::apply(CellGenes* fatherGenes, CellGenes* childGenes){}
+void CellBehaviour::apply(CellGenes* fatherGenes, CellGenes* childGenes) {}
 
 
 void RadiactiveBehaviour::apply(CellGenes* fatherGenes, CellGenes* childGenes) {
-    int* _genes = childGenes->getGenes();
+    int* _genes = childGenes->getGenesValues();
     _genes[0] = _genes[0] / 2;
-    childGenes->setGenes(_genes);
+    cout << _genes[0];
+    childGenes->setGenesValues(_genes);
+
 }
 
 
-void AryanBehaviour::apply(CellGenes * fatherGenes, CellGenes* childGenes) {
+void AryanBehaviour::apply(CellGenes* fatherGenes, CellGenes* childGenes) {
 
-    int * _fatherGenes = fatherGenes->getGenes();
-    int* _childGenes = childGenes->getGenes();
-    int indexMaximumGen=0;
+    int* _fatherGenes = fatherGenes->getGenesValues();
+    int* _childGenes = childGenes->getGenesValues();
+    int indexMaximumGen = 0;
     int maxGen = 0;
 
     for (int i = 0; i < fatherGenes->getGenesCount(); i++) {
@@ -25,9 +29,9 @@ void AryanBehaviour::apply(CellGenes * fatherGenes, CellGenes* childGenes) {
             maxGen = _fatherGenes[i];
         }
     }
-    
+
     _childGenes[indexMaximumGen] = maxGen;
-    childGenes->setGenes(_childGenes);
+    childGenes->setGenesValues(_childGenes);
 }
 
 void NormalBehaviour::apply() {

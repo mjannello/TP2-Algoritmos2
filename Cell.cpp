@@ -1,13 +1,13 @@
 #include "Cell.h"
-
 #include <iostream>
+#include "CellGenes.h"
+
 using namespace std;
 
-Cell::Cell(CellBehaviour* behaviour, CellGenes* genes, CellState newState)
+Cell::Cell(CellGenes* genes, CellState newState)
 {
     this->genes = genes;
     this->state = newState;
-    this->behaviour = behaviour;
 }
 
 Cell::~Cell() {}
@@ -28,13 +28,24 @@ bool Cell::isAlive()
 }
 
 void Cell::applyBehaviour(Cell* otherCell) {
-   // otherCell->debugInt++;
+    // otherCell->debugInt++;
     this->behaviour->apply(this->genes, otherCell->genes);
+}
+
+void Cell::setBehaviour(CellBehaviour* behaviour)
+{
+    this->behaviour = behaviour;
+}
+
+CellGenes* Cell::getGenes()
+{
+    return this->genes;
 }
 
 
 
-RadioactiveCell::RadioactiveCell(): Cell(new RadiactiveBehaviour()) {
+RadioactiveCell::RadioactiveCell() : Cell() {
+    this->setBehaviour(new RadiactiveBehaviour());
 }
 
 
@@ -45,5 +56,5 @@ void RadioactiveCell::applyNextStateStrategy(List<Cell*>* neighboursCells) {
         Cell* neighbourCell = neighboursCells->get(i);
         neighbourCell->applyBehaviour(this);
     }
-    
+
 }
