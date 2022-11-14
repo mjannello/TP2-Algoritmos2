@@ -30,7 +30,7 @@ public:
 	Box<T>* getBox(int x, int y, int z);
 	void fillBox(int x, int y, int z, T element);
 	void append(T element);
-	int countAllBoxes();
+	unsigned int countAllBoxes();
 	void fillWith(List<T>* elements);
 	void defineNewStates();
 };
@@ -183,7 +183,7 @@ void Board<T>::append(T element) {
 }
 
 template<class T>
-int Board<T>::countAllBoxes() {
+unsigned int Board<T>::countAllBoxes() {
 	return getWidth() * getLength() * getHeight();
 
 }
@@ -206,7 +206,7 @@ void Board<T>::defineNewStates() {
 	for (int x = 1; x <= getWidth(); x++){
 		for (int y = 1; y <= getLength(); y++){
 			for (int z = 1; z <= getHeight(); z++) {
-				getBox(x, y, z)->applyNeighboursBehaviour();
+				getBox(x, y, z)->nextState();
 			}
 		}
 	}

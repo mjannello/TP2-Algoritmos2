@@ -1,42 +1,48 @@
 #ifndef CELL_H
 #define CELL_H
 
+
+#include "CellBehaviour.h"
+#include "List.h"
+
+
 enum CellState {
 	DEAD,
 	ALIVE
 };
 
+enum CellBehaviours { NORMAL, RADIOACTIVE, PORTAL, ZOMBIE, SCALOCELULA, ARIA };
+
+
 class Cell
 {
 private:
-	//Cell**** neighbours;
-	// Comportamiento c;
-	// Coleccion<Cell> vecinos;
-	// Coleccion<Genes> genes;
-	CellState state;
-
 	
-
-
-	// clase genes que almacene los genes y sepa como generar nuevos apartir de las celulas madre
-
-
-	// comportamientos obligatorios portal, radioactiva. 
-	// comportamientos a definir, ejemplo: envenenada, contaminada, procxreadora
-	// podemos definirlo como una clase comportamiento con subclases por cada comportamiento
-	// ver patron strategy
-
-
-
+	CellState state;
+	CellGenes * genes;
+	CellBehaviour* behaviour;
 
 public:
 	int debugInt;
-	Cell(CellState newState);
+	Cell(CellBehaviour* behaviour = NULL, CellGenes* genes = new CellGenes(), CellState newState = ALIVE);
 	~Cell();
 	void setState(CellState newState);
 	CellState getState();
 	bool isAlive();
 	void applyBehaviour(Cell* otherCell);
+	CellGenes * getGenes();
+	void setGenes(CellGenes* genes);
+
+	virtual void applyNextStateStrategy(List<Cell*>* neighboursCells)=0;
+
+
+};
+
+
+class RadioactiveCell : public Cell {
+public:
+	RadioactiveCell();
+	void applyNextStateStrategy(List<Cell*>* neighboursCells);
 };
 
 #endif 
