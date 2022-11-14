@@ -21,25 +21,26 @@ class AryanBehaviour : public CellBehaviour {
 public:
     void apply(CellGenes* fatherGenes, CellGenes* childGenes);
 };
-/*
-class ScaloCellBehaviour : public CellBehaviour {
-public:
-    void apply(int fatherGenes[], int childGenes[]);
-};
+
 
 class ZombieBehaviour : public CellBehaviour {
 public:
-    void apply(int fatherGenes[], int childGenes[]);
+    void apply(CellGenes* fatherGenes, CellGenes* childGenes);
+};
+
+class ScaloCellBehaviour : public CellBehaviour {
+public:
+    void apply(CellGenes* fatherGenes, CellGenes* childGenes);
 };
 
 class PortalBehaviour : public CellBehaviour {
 public:
-    void apply(int fatherGenes[], int childGenes[]);
+    void apply(CellGenes* fatherGenes, CellGenes* childGenes);
 };
-*/
+
 class NormalBehaviour : public CellBehaviour {
 public:
-    void apply();
+    void apply(CellGenes* fatherGenes, CellGenes* childGenes);
 };
 
 

@@ -34,22 +34,20 @@ void AryanBehaviour::apply(CellGenes* fatherGenes, CellGenes* childGenes) {
     childGenes->setGenesValues(_childGenes);
 }
 
-void NormalBehaviour::apply() {
-}
-/*
-void ScaloCellBehaviour::apply(Cell* celulaPadre, Cell* celulaHija) {
+void PortalBehaviour::apply(CellGenes* fatherGenes, CellGenes* childGenes) {
+    
 }
 
-void ZombieBehaviour::apply(Cell* celulaPadre, Cell* celulaHija) {
+void NormalBehaviour::apply(CellGenes* fatherGenes, CellGenes* childGenes) {
+}
+
+void ScaloCellBehaviour::apply(CellGenes* fatherGenes, CellGenes* childGenes) {
+}
+
+
+
+void ZombieBehaviour::apply(CellGenes* fatherGenes, CellGenes* childGenes){
     int genes[3] = { 0,0,0 };
-    celulaHija->setGenes(genes);
+    childGenes->setGenesValues(genes);
 }
 
-
-void PortalBehaviour::apply(Cell* celulaPadre, Cell* celulaHija) {
-    int* genes;
-    genes = celulaPadre->getGenes();
-    celulaHija->setGenes(genes);
-}
-
-*/
