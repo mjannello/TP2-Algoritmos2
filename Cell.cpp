@@ -8,6 +8,10 @@ Cell::Cell(CellGenes* genes, CellState newState)
 {
     this->genes = genes;
     this->state = newState;
+    
+    this->neighboursToBorn = 5;
+    this->minNeighboursToDie = 7;
+    this->maxNeighboursToDie = 15;
 }
 
 Cell::~Cell() {}
@@ -79,8 +83,15 @@ int Cell::getAmountCellsAlive(List<Cell*>* cells) {
     return cellsAlive;
 }
 
+void Cell::setNeighboursToBorn(int neighboursToBorn) { this->neighboursToBorn = neighboursToBorn; }
+void Cell::setMinNeighboursToDie(int minNeighboursToDie) { this->minNeighboursToDie = minNeighboursToDie; }
+void Cell::setMaxNeighboursToDie(int miaxNeighboursToDie) { this->maxNeighboursToDie = maxNeighboursToDie; }
+void Cell::switchStates() {
+    this->state = this->nextState;
+}
 
-RadioactiveCell::RadioactiveCell() : Cell() {
+
+RadioactiveCell::RadioactiveCell(CellGenes* genes, CellState state) : Cell(genes, state) {
     this->setBehaviour(new RadiactiveBehaviour());
 }
 
@@ -97,7 +108,7 @@ void RadioactiveCell::applyNextStateStrategy(List<Cell*>* neighboursCells) {
 
 }
 
-PortalFatherCell::PortalFatherCell(PortalChildCell* child) : Cell() {
+PortalFatherCell::PortalFatherCell(PortalChildCell* child, CellGenes* genes, CellState state) : Cell(genes, state) {
     this->setBehaviour(new PortalBehaviour());
     this->setPortalChildCell(child);
 }
@@ -120,7 +131,7 @@ void PortalFatherCell::applyNextStateStrategy(List<Cell*>* neighboursCells) {
     this->childCell->setGenes(this->getGenes());
 }
 
-PortalChildCell::PortalChildCell() : Cell() {
+PortalChildCell::PortalChildCell(CellGenes* genes, CellState state) : Cell(genes, state) {
     this->setBehaviour(new PortalBehaviour());
 }
 
@@ -128,7 +139,7 @@ void PortalChildCell::applyNextStateStrategy(List<Cell*>* neighboursCells)
 {
 }
 
-ScaloCell::ScaloCell() : Cell() {
+ScaloCell::ScaloCell(CellGenes* genes, CellState state) : Cell(genes, state) {
     this->setBehaviour(new ScaloCellBehaviour());
 }
 
@@ -143,7 +154,7 @@ void ScaloCell::applyNextStateStrategy(List<Cell*>* neighboursCells)
 
 }
 
-ZombieCell::ZombieCell() : Cell() {
+ZombieCell::ZombieCell(CellGenes* genes, CellState state) : Cell(genes, state) {
     this->setBehaviour(new ZombieBehaviour());
 }
 
@@ -159,7 +170,7 @@ void ZombieCell::applyNextStateStrategy(List<Cell*>* neighboursCells)
     }
 }
 
-NormalCell::NormalCell() : Cell() {
+NormalCell::NormalCell(CellGenes* genes, CellState state) : Cell(genes, state) {
     this->setBehaviour(new NormalBehaviour());
 }
 

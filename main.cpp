@@ -2,6 +2,10 @@
 #include "Board.h"
 #include "Box.h"
 #include "Cell.h"
+#include "Game.h"
+#include "EasyBMP.h"
+
+#include <string>
 #include <iostream>
 
 using namespace std;
@@ -45,18 +49,65 @@ int main() {
     int lado = 3;
     Board<Cell*>* newBoard = new Board<Cell*>(lado, lado, 4);
     List<Cell*>* elements = new List<Cell*>();
-    for (unsigned int i = 1; i <= newBoard->countAllBoxes(); i++)
+    for (unsigned int i = 1; i <= newBoard->countAllBoxes()-5; i++)
     {
-        Cell* cell = new RadioactiveCell();
-        cell->debugInt = i;
+        Cell* cell = new NormalCell(new CellGenes(), ALIVE);
         elements->add(cell);
     }
+    for (unsigned int i = 1; i <= 5; i++)
+    {
+        Cell* cell = new NormalCell(new CellGenes(), DEAD);
+        elements->add(cell);
+    }
+
     newBoard->fillWith(elements);
+    /*
     int* genes = newBoard->getBox(1, 1, 1)->getData()->getGenes()->getGenesValues();
     cout << "element in newBoard: " << genes[0]<< genes[1]<< genes[2] << endl;
     newBoard->defineNewStates();
     genes = newBoard->getBox(1, 1, 1)->getData()->getGenes()->getGenesValues();
     cout << "element in newBoard: " << genes[0] << genes[1] << genes[2] << endl;
+    */
+    Game* game = new Game();
+    game->setConfigOne();
+    game->nextRound();
+    int* genes = game->getBoard()->getBox(1, 1, 1)->getData()->getGenes()->getGenesValues();
+    cout << "element in game board: " << genes[0] << genes[1] << genes[2] << endl;
+
+    BMP AnImage;
+    // Set size to 640 × 480
+    AnImage.SetSize(640, 480);
+    // Set its color depth to 8-bits
+    AnImage.SetBitDepth(24);
+
+
+    for (int i = 1; i <= game->getBoard()->getWidth(); i++) {
+        for (int j = 1; j <= game->getBoard()->getLength(); j++) {
+            for (int k = 1; k <= game->getBoard()->getHeight(); k++) {
+                int* genes = game->getBoard()->getBox(i,j,k)->getData()->getGenes()->getGenesValues();
+                //AnImage(i, j)->Red = genes[0];
+                //AnImage(i, j)->Green = genes[1];
+                //AnImage(i, j)->Blue = genes[2];
+                RGBApixel NewColor;
+                NewColor.Red = genes[0];
+                NewColor.Green = genes[1];
+                NewColor.Blue = genes[2];
+
+                for (int l = 0; l < 100; l++) {
+                    for (int m = 0; m < 100; m++) {
+                        AnImage.SetPixel(j*50+l, k*50 + m, NewColor);
+
+                    }
+                }
+
+                string fileNameStr = "Imagen" + to_string(i) + ".bmp";
+                const char* fileName = fileNameStr.c_str();
+
+                AnImage.WriteToFile(fileName);
+
+            }
+        }
+    }
 
     /*
     Board<Cell> * cellBoard = new Board<Cell>(3,3,3);

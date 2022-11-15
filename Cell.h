@@ -25,7 +25,6 @@ private:
 	int minNeighboursToDie;
 	int maxNeighboursToDie;
 public:
-	int debugInt;
 	Cell(CellGenes* genes = new CellGenes(), CellState newState = DEAD);
 	~Cell();
 	void setState(CellState newState);
@@ -38,9 +37,12 @@ public:
 	CellGenes* getGenes();
 	void setGenes(CellGenes* genes);
 	void defineNextState(int amountNeighboursAlive);
-
+	void setNeighboursToBorn(int neighboursToBorn);
+	void setMinNeighboursToDie(int minNeighboursToDie);
+	void setMaxNeighboursToDie(int miaxNeighboursToDie);
 	int getAmountCellsAlive(List<Cell*>* cells);
-	
+	void switchStates();
+
 	virtual void applyNextStateStrategy(List<Cell*>* neighboursCells) = 0;
 
 
@@ -48,19 +50,19 @@ public:
 
 class NormalCell : public Cell {
 public:
-	NormalCell();
+	NormalCell(CellGenes* genes, CellState state);
 	void applyNextStateStrategy(List<Cell*>* neighboursCells);
 };
 
 class RadioactiveCell : public Cell {
 public:
-	RadioactiveCell();
+	RadioactiveCell(CellGenes* genes, CellState state);
 	void applyNextStateStrategy(List<Cell*>* neighboursCells);
 };
 
 class PortalChildCell : public Cell {
 public:
-	PortalChildCell();
+	PortalChildCell(CellGenes* genes, CellState state);
 	void applyNextStateStrategy(List<Cell*>* neighboursCells);
 };
 
@@ -69,7 +71,7 @@ class PortalFatherCell : public Cell {
 private:
 	PortalChildCell* childCell;
 public:
-	PortalFatherCell(PortalChildCell* child);
+	PortalFatherCell(PortalChildCell* child, CellGenes* genes, CellState state);
 	void setPortalChildCell(PortalChildCell* child);
 	void applyNextStateStrategy(List<Cell*>* neighboursCells);
 };
@@ -77,13 +79,13 @@ public:
 
 class ScaloCell : public Cell {
 public:
-	ScaloCell();
+	ScaloCell(CellGenes* genes, CellState state);
 	void applyNextStateStrategy(List<Cell*>* neighboursCells);
 };
 
 class ZombieCell : public Cell {
 public:
-	ZombieCell();
+	ZombieCell(CellGenes* genes, CellState state);
 	void applyNextStateStrategy(List<Cell*>* neighboursCells);
 };
 

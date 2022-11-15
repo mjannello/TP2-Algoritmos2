@@ -10,6 +10,11 @@ CellGenes::CellGenes(int genes[]) {
     setGenesValues(genes);
 }
 
+CellGenes::CellGenes(int red, int green, int blue) {
+    int genes[3] = { red, green, blue };
+    setGenesValues(genes);
+}
+
 void CellGenes::setGenesValues(int gen[]) {
     
     for (int i = 0; i < this->GENES_QUANTITY; i++) {
