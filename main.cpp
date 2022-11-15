@@ -76,14 +76,14 @@ int main() {
 
     BMP AnImage;
     // Set size to 640 × 480
-    AnImage.SetSize(640, 480);
+    AnImage.SetSize(1024, 768);
     // Set its color depth to 8-bits
-    AnImage.SetBitDepth(24);
+    AnImage.SetBitDepth(16);
 
 
-    for (int i = 1; i <= game->getBoard()->getWidth(); i++) {
+    for (int k = 1; k <= game->getBoard()->getWidth(); k++) {
         for (int j = 1; j <= game->getBoard()->getLength(); j++) {
-            for (int k = 1; k <= game->getBoard()->getHeight(); k++) {
+            for (int i = 1; i <= game->getBoard()->getHeight(); i++) {
                 int* genes = game->getBoard()->getBox(i,j,k)->getData()->getGenes()->getGenesValues();
                 //AnImage(i, j)->Red = genes[0];
                 //AnImage(i, j)->Green = genes[1];
@@ -93,14 +93,24 @@ int main() {
                 NewColor.Green = genes[1];
                 NewColor.Blue = genes[2];
 
+                RGBApixel White;
+                White.Red = 255;
+                White.Green = 255;
+                White.Blue = 255;
+
                 for (int l = 0; l < 100; l++) {
                     for (int m = 0; m < 100; m++) {
-                        AnImage.SetPixel(j*50+l, k*50 + m, NewColor);
+                        if(m == 0 || l == 0 || m == 99 || l == 99){
+                            AnImage.SetPixel(i * 100, j * 100, White);
+                        }
+                        else {
+                            AnImage.SetPixel(i*100+l, j*100 + m, NewColor);
+                        }
 
                     }
                 }
 
-                string fileNameStr = "Imagen" + to_string(i) + ".bmp";
+                string fileNameStr = "Imagen" + to_string(k) + ".bmp";
                 const char* fileName = fileNameStr.c_str();
 
                 AnImage.WriteToFile(fileName);
