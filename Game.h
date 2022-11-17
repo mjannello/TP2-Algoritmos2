@@ -17,6 +17,7 @@ public:
 	void nextRound();
 
 	void setConfigOne();
+	void setConfigTwo();
 
 };
 

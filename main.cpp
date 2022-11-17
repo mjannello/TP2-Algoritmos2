@@ -69,7 +69,7 @@ int main() {
     cout << "element in newBoard: " << genes[0] << genes[1] << genes[2] << endl;
     */
     Game* game = new Game();
-    game->setConfigOne();
+    game->setConfigTwo();
     game->nextRound();
     int* genes = game->getBoard()->getBox(1, 1, 1)->getData()->getGenes()->getGenesValues();
     cout << "element in game board: " << genes[0] << genes[1] << genes[2] << endl;
@@ -81,9 +81,9 @@ int main() {
     AnImage.SetBitDepth(16);
 
 
-    for (int k = 1; k <= game->getBoard()->getWidth(); k++) {
-        for (int j = 1; j <= game->getBoard()->getLength(); j++) {
-            for (int i = 1; i <= game->getBoard()->getHeight(); i++) {
+    for (int i = 1; i <= game->getBoard()->getWidth(); i++) {
+        for (int k = 1; k <= game->getBoard()->getLength(); k++) {
+            for (int j = 1; j <= game->getBoard()->getHeight(); j++) {
                 int* genes = game->getBoard()->getBox(i, j, k)->getData()->getGenes()->getGenesValues();
                 //AnImage(i, j)->Red = genes[0];
                 //AnImage(i, j)->Green = genes[1];
@@ -101,16 +101,16 @@ int main() {
                 for (int l = 0; l < 100; l++) {
                     for (int m = 0; m < 100; m++) {
                         if (m == 0 || l == 0 || m == 99 || l == 99) {
-                            AnImage.SetPixel(i * 100, j * 100, White);
+                            AnImage.SetPixel(j * 100, k * 100, White);
                         }
                         else {
-                            AnImage.SetPixel(i * 100 + l, j * 100 + m, NewColor);
+                            AnImage.SetPixel(j * 100 + l, k * 100 + m, NewColor);
                         }
 
                     }
                 }
 
-                string fileNameStr = "Imagen" + to_string(k) + ".bmp";
+                string fileNameStr = "Imagen" + to_string(i) + ".bmp";
                 const char* fileName = fileNameStr.c_str();
 
                 AnImage.WriteToFile(fileName);

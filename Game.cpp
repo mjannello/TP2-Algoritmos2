@@ -10,7 +10,6 @@ Board<Cell*>* Game::getBoard() {
 
 void Game::setBoard(int width, int large, int height) {
 	this->board = new Board<Cell*>(width, large, height);
-
 }
 
 
@@ -72,6 +71,23 @@ void Game::setConfigOne() {
 
 	this->board->fillWith(cells);
 }
+
+void Game::setConfigTwo() {
+	setBoard(3, 3, 3);
+	List<Cell*>* cells = new List<Cell*>();
+	for (int i = 1; i <= 9; i++) {
+		cells->add(new NormalCell(new CellGenes(250, 250, 0), ALIVE));
+	}
+	for (int i = 1; i <= 9; i++) {
+		cells->add(new RadioactiveCell(new CellGenes(250, 0, 0), ALIVE));
+	}
+	for (int i = 1; i <= 9; i++) {
+		cells->add(new NormalCell(new CellGenes(), DEAD));
+	}
+
+	this->board->fillWith(cells);
+}
+
 
 void Game::nextRound() {
 	this->board->defineNewStates();
