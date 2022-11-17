@@ -61,6 +61,7 @@ Box<T>::Box(T data) {
 
 template<class T>
 Box<T>::Box(int x, int y, int z) {
+    setData(NULL);
     setCoordX(x);
     setCoordY(y);
     setCoordZ(z);
