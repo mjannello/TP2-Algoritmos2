@@ -164,10 +164,10 @@ void Game::showInitializationMenu()
 	cout << endl;
 
 	cout << "Seleccione el tipo de inicialización:" << endl;
-	cout << "1. Manual" << endl;
-	cout << "2. Configuración 1" << endl;
-	cout << "3. Configuración 2" << endl;
-	cout << "4. Configuración 3" << endl;
+	cout << "  1. Manual" << endl;
+	cout << "  2. Configuración 1" << endl;
+	cout << "  3. Configuración 2" << endl;
+	cout << "  4. Configuración 3" << endl;
 	cout << endl;
 	cout << "Ingrese una opción: ";
 	cin >> input;
@@ -202,6 +202,7 @@ void Game::showInitializationMenu()
 	this->printBoard();
 	cout << "El estado del tablero se muestra en las imágenes .bmp generadas." << endl;
 	cout << "Presione una tecla para continuar al próximo turno...";
+	cout << endl;
 	cin.ignore();
 	cin.get();
 	this->nextRound();
@@ -345,21 +346,22 @@ void Game::printBoard()
 // Imprime las estadísticas
 void Game::printStatistics()
 {
-	cout << "Cantidad de células vivas: " << this->cellsAlive << endl;
-	cout << "Cantidad de células que nacieron en este turno: " << this->cellsBornThisRound << endl;
-	cout << "Cantidad de células que murieron en este turno: " << this->cellsDiedThisRound << endl;
+	cout << "Estadísticas:" << endl;
+	cout << "  - Cantidad de células vivas: " << this->cellsAlive << endl;
+	cout << "  - Cantidad de células que nacieron en este turno: " << this->cellsBornThisRound << endl;
+	cout << "  - Cantidad de células que murieron en este turno: " << this->cellsDiedThisRound << endl;
 
 	this->meanBirths = static_cast<float>(this->totalCellsBorn) / static_cast<float>(this->round);
-	cout << "Promedio de nacimientos: " << this->meanBirths << endl;
+	cout << "  - Promedio de nacimientos: " << this->meanBirths << endl;
 
 	this->meanDeaths = static_cast<float>(this->totalCellsDied) / static_cast<float>(this->round);
-	cout << "Promedio de muertes: " << this->meanDeaths << endl;
+	cout << "  - Promedio de muertes: " << this->meanDeaths << endl;
 
 	if (this->gameChangedLastRound == false && this->gameChangedThisRound == false)
 	{
 		this->isGameFrozen = true;
 	}
-	cout << "El juego se congeló: " << (this->isGameFrozen == true ? "Sí" : "No") << endl;
+	cout << "  - El juego se congeló: " << (this->isGameFrozen == true ? "Sí" : "No") << endl;
 
 	cout << endl;
 };
