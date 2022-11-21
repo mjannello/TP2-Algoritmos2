@@ -1,7 +1,5 @@
 
 #include "CellBehaviour.h"
-#include <iostream>
-using namespace std;
 
 
 void CellBehaviour::apply(CellGenes* fatherGenes, CellGenes* childGenes) {}
@@ -10,7 +8,6 @@ void CellBehaviour::apply(CellGenes* fatherGenes, CellGenes* childGenes) {}
 void RadiactiveBehaviour::apply(CellGenes* fatherGenes, CellGenes* childGenes) {
     int* _genes = childGenes->getGenesValues();
     _genes[0] = _genes[0] / 2;
-    cout << _genes[0];
     childGenes->setGenesValues(_genes);
 
 }

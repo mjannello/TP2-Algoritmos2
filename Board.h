@@ -20,7 +20,9 @@ public:
 	~Board();
 	void assignNeighbours();
 	void assignNeighbour(Box<T>* box);
-	int validateEdges(int coord, int edge);
+	int getValidEdge(int coord, int edge);
+	bool isValidEdge(int coord, int edge);
+	bool isValidSize(int size);
 	int getWidth();
 	void setWidth(int width);
 	int getLength();
@@ -32,6 +34,7 @@ public:
 	void append(T element);
 	unsigned int countAllBoxes();
 	void fillWith(List<T>* elements);
+	void fillCompletelyWith(T element);
 	void defineNewStates();
 };
 
@@ -105,9 +108,9 @@ void Board<T>::assignNeighbour(Box<T>* box) {
 				if (i == coordX && j == coordY && k == coordZ) {
 					continue;
 				}
-				int validCoordX = validateEdges(i, getWidth());
-				int validCoordY = validateEdges(j, getLength());
-				int validCoordZ = validateEdges(k, getHeight());
+				int validCoordX = getValidEdge(i, getWidth());
+				int validCoordY = getValidEdge(j, getLength());
+				int validCoordZ = getValidEdge(k, getHeight());
 
 				Box<T>* neighbour = getBox(validCoordX, validCoordY, validCoordZ);
 				box->addNeighbour(neighbour);
@@ -117,10 +120,16 @@ void Board<T>::assignNeighbour(Box<T>* box) {
 }
 
 template<class T>
-int Board<T>::validateEdges(int coord, int edge) {
+int Board<T>::getValidEdge(int coord, int edge) {
 	int validCoord = coord <= edge ? coord : 1;
 	validCoord = coord < 1 ? edge : validCoord;
 	return validCoord;
+}
+
+
+template<class T>
+bool Board<T>::isValidEdge(int coord, int edge) {
+	return coord > 0 && coord <= edge;
 }
 
 template<class T>
@@ -189,6 +198,13 @@ unsigned int Board<T>::countAllBoxes() {
 }
 
 template<class T>
+bool Board<T>::isValidSize(int size) {
+	int allBoxes = this->countAllBoxes();
+	bool response = size > 0 && size <= this->countAllBoxes();
+	return response;
+}
+
+template<class T>
 void Board<T>::fillWith(List<T>* elements) {
 	if (elements->countElements() > this->countAllBoxes()) {
 		throw "Too much elements: cannot be added to the Board";
@@ -200,6 +216,16 @@ void Board<T>::fillWith(List<T>* elements) {
 
 	}
 }
+
+template<class T>
+void Board<T>::fillCompletelyWith(T element) {
+	for (int i = 1; i <= this->countAllBoxes(); i++)
+	{
+		this->append(element);
+	}
+
+}
+
 
 template<class T>
 void Board<T>::defineNewStates() {

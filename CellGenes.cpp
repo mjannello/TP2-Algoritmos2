@@ -19,7 +19,6 @@ void CellGenes::setGenesValues(int gen[]) {
 
     for (int i = 0; i < this->GENES_QUANTITY; i++) {
         this->genes[i] = gen[i];
-        //std::cout<< "Genes seteados" << i << " es : ---->" << this->genes[i]<<std::endl;
     }
 }
 

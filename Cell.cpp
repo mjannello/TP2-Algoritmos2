@@ -1,8 +1,6 @@
 #include "Cell.h"
-#include <iostream>
 #include "CellGenes.h"
 
-using namespace std;
 
 Cell::Cell(CellGenes* genes, CellState newState)
 {
@@ -66,7 +64,7 @@ void Cell::defineNextState(int amountNeighboursAlive) {
         this->nextState = ALIVE;
     }
     if (this->state == ALIVE) {
-        if (minNeighboursToDie > amountNeighboursAlive || amountNeighboursAlive > maxNeighboursToDie) {
+        if (minNeighboursToDie <= amountNeighboursAlive && amountNeighboursAlive <= maxNeighboursToDie) {
             this->nextState = DEAD;
         }
     }
