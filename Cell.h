@@ -11,7 +11,7 @@ enum CellState {
 };
 
 enum CellBehaviours { NORMAL, RADIOACTIVE, PORTAL, ZOMBIE, SCALOCELULA, ARIA };
-
+enum TransitionState { NO_CHANGE, NEW_BORN, NEW_DEATH};
 
 class Cell
 {
@@ -41,7 +41,7 @@ public:
 	void setMinNeighboursToDie(int minNeighboursToDie);
 	void setMaxNeighboursToDie(int miaxNeighboursToDie);
 	int getAmountCellsAlive(List<Cell*>* cells);
-	void switchStates();
+	TransitionState switchStates();
 
 	virtual void applyNextStateStrategy(List<Cell*>* neighboursCells) = 0;
 

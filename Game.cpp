@@ -16,6 +16,7 @@ Game::Game()
 	gameChangedLastRound = false;
 	gameChangedThisRound = false;
 	isGameFrozen = false;
+	ongoingGame = true;
 	board = NULL;
 }
 
@@ -61,20 +62,6 @@ void Game::askInitialCellsAlive() {
 	}
 	cout << endl;
 	this->cellsAlive = numberOfCells;
-}
-
-void Game::askCellStateLimits()
-{
-	int width, large, height;
-	cout << "Ingrese ancho:" << endl;
-	cin >> width;
-	cout << endl;
-	cout << "Ingrese largo:" << endl;
-	cin >> large;
-	cout << endl;
-	cout << "Ingrese alto:" << endl;
-	cin >> height;
-	cout << endl;
 }
 
 void Game::askPositionForSingleCellAlive() {
@@ -156,6 +143,24 @@ void Game::setConfigOne()
 	}
 
 	this->board->fillWith(cells);
+	this->cellsAlive = this->countCellsAlive();
+}
+
+int Game::countCellsAlive() {
+	int cellsAlive = 0;
+	for (int x = 1; x <= this->board->getWidth(); x++)
+	{
+		for (int y = 1; y <= this->board->getLength(); y++)
+		{
+			for (int z = 1; z <= this->board->getHeight(); z++)
+			{
+				if (this->board->getBox(x, y, z)->getData()->isAlive()) {
+					cellsAlive++;
+				}
+			}
+		}
+	}
+	return cellsAlive;
 }
 
 void Game::setConfigTwo()
@@ -181,9 +186,31 @@ void Game::setConfigTwo()
 void Game::nextRound()
 {
 	this->board->defineNewStates();
-	this->printBoard();
-	this->printStatistics();
-	this->showOptionsMenu();
+	this->updateCellsStates();
+	this->round++;
+}
+
+void Game::updateCellsStates() {
+	for (int x = 1; x <= this->board->getWidth(); x++)
+	{
+		for (int y = 1; y <= this->board->getLength(); y++)
+		{
+			for (int z = 1; z <= this->board->getHeight(); z++)
+			{
+				TransitionState transition = this->board->getBox(x, y, z)->getData()->switchStates();
+				this->countTransitions(transition);
+			}
+		}
+	}
+}
+
+void Game::countTransitions(TransitionState transition) {
+	if (transition==NEW_BORN) {
+		this->cellsBornThisRound++;
+	}
+	if (transition == NEW_DEATH) {
+		this->cellsDiedThisRound++;
+	}
 }
 
 void Game::initializeGame()
@@ -199,6 +226,7 @@ void Game::initializeGame()
 	this->gameChangedLastRound = false;
 	this->gameChangedThisRound = false;
 	this->isGameFrozen = false;
+	this->ongoingGame = true;
 
 	if (this->board)
 	{
@@ -240,8 +268,6 @@ void Game::showInitializationMenu()
 	switch (input - 1)
 	{
 	case MANUAL:
-		/* showManualInitializationMenu(game);
-		game->nextRound(); */
 		this->showManualInitializationMenu();
 		break;
 	case CONFIG_ONE:
@@ -251,18 +277,15 @@ void Game::showInitializationMenu()
 		this->setConfigTwo();
 		break;
 	case CONFIG_THREE:
-
+		cout << "Aun no hay configuracion 3"<<endl;
 		break;
 	default:
 		break;
 	}
 
-	this->printBoard();
-	cout << "El estado del tablero se muestra en las imágenes .bmp generadas." << endl;
-	cout << "Presione una tecla para continuar al próximo turno...";
-	cin.ignore();
-	cin.get();
-	this->nextRound();
+	this->showGameStatus();
+	this->showOptionsMenu();
+
 }
 
 // Muestra el menú para la inicialización manual del tablero
@@ -271,7 +294,6 @@ void Game::showManualInitializationMenu() {
 	this->board->fillCompletelyWith(new NormalCell(new CellGenes(0, 0, 0), DEAD));
 	this->askInitialCellsAlive();
 	this->askPositionForAllCellsAlive();
-
 }
 
 // Muestra el menú con las opciones del juego
@@ -281,8 +303,7 @@ void Game::showOptionsMenu()
 
 	cout << "1. Ejecutar un turno" << endl;
 	cout << "2. Reiniciar juego" << endl;
-	cout << "3. Terminar juego" << endl;
-	cout << endl;
+	cout << "3. Terminar juego" << endl << endl;
 	cout << "Ingrese una opción: ";
 	cin >> input;
 	cout << endl;
@@ -297,18 +318,37 @@ void Game::showOptionsMenu()
 	{
 	case NEXT_ROUND:
 		this->nextRound();
+		this->showGameStatus();
+		this->showOptionsMenu();
 		break;
 	case RESTART:
 		this->initializeGame();
+		this->showInitializationMenu();
 		break;
 	case END_GAME:
-		cout << "¡Juego terminado!" << endl;
-		exit(0);
+		this->endGame();
 		break;
 	default:
 		break;
 	}
 };
+
+void Game::endGame()
+{
+	showEndingGameMessage();
+	this->ongoingGame=false;
+}
+
+void Game::showEndingGameMessage() {
+	cout << "Juego terminado!" << endl;
+}
+
+void Game::showGameStatus() {
+	this->printBoard();
+	this->printStatistics();
+
+}
+
 
 void Game::printBoard()
 {
@@ -357,6 +397,7 @@ void Game::printBoard()
 			}
 		}
 	}
+	cout << "El estado del tablero se muestra en las " + to_string(this->getBoard()->getWidth()) + " imágenes .bmp generadas." << endl;
 }
 
 // Imprime las estadísticas
@@ -370,6 +411,7 @@ void Game::printStatistics()
 	cout << "Promedio de nacimientos: " << this->meanBirths << endl;
 
 	this->meanDeaths = static_cast<float>(this->totalCellsDied) / static_cast<float>(this->round);
+	float promedioMuertes = this->round == 0 ? (float)totalCellsDied : totalCellsDied / round;
 	cout << "Promedio de muertes: " << this->meanDeaths << endl;
 
 	if (this->gameChangedLastRound == false && this->gameChangedThisRound == false)

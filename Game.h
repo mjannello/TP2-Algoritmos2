@@ -35,6 +35,7 @@ private:
 	bool gameChangedLastRound;
 	bool gameChangedThisRound;
 	bool isGameFrozen;
+	bool ongoingGame;
 
 public:
 	Game();
@@ -42,7 +43,6 @@ public:
 	void askBoardSize();
 	Board<Cell*>* getBoard();
 	void setBoard(int width, int large, int height);
-	void askCellStateLimits();
 	void initializeGame();
 	void nextRound();
 	void setConfigOne();
@@ -56,6 +56,12 @@ public:
 	void askInitialCellsAlive();
 	void askPositionForSingleCellAlive();
 	void askPositionForAllCellsAlive();
+	void endGame();
+	void showEndingGameMessage();
+	void showGameStatus();
+	int countCellsAlive();
+	void updateCellsStates();
+	void countTransitions(TransitionState transition);
 };
 
 #endif

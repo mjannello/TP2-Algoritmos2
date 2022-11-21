@@ -40,7 +40,6 @@ bool Cell::isAlive()
 }
 
 void Cell::applyBehaviour(Cell* otherCell) {
-    // otherCell->debugInt++;
     this->behaviour->apply(this->genes, otherCell->genes);
 }
 
@@ -84,9 +83,20 @@ int Cell::getAmountCellsAlive(List<Cell*>* cells) {
 void Cell::setNeighboursToBorn(int neighboursToBorn) { this->neighboursToBorn = neighboursToBorn; }
 void Cell::setMinNeighboursToDie(int minNeighboursToDie) { this->minNeighboursToDie = minNeighboursToDie; }
 void Cell::setMaxNeighboursToDie(int miaxNeighboursToDie) { this->maxNeighboursToDie = maxNeighboursToDie; }
-void Cell::switchStates() {
+TransitionState Cell::switchStates() {
+    
+    TransitionState transition = NO_CHANGE;
+    if (this->state == ALIVE && this->nextState == DEAD) {
+        transition = NEW_DEATH;
+    }
+    if (this->state == DEAD && this->nextState == ALIVE) {
+        transition = NEW_DEATH;
+    }
     this->state = this->nextState;
+    return transition;
+
 }
+   
 
 
 RadioactiveCell::RadioactiveCell(CellGenes* genes, CellState state) : Cell(genes, state) {
