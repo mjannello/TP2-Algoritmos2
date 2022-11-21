@@ -181,6 +181,7 @@ void Game::setConfigTwo()
 	}
 
 	this->board->fillWith(cells);
+	this->cellsAlive = this->countCellsAlive();
 }
 
 void Game::nextRound()
