@@ -25,7 +25,8 @@ class Game
 private:
 	Board<Cell *> *board;
 	int round;
-	int cellsAlive;
+	int cellsAliveThisRound;
+	int cellsAliveLastRound;
 	int cellsBornThisRound;
 	int cellsDiedThisRound;
 	int totalCellsBorn;
@@ -52,6 +53,7 @@ public:
 	void showOptionsMenu();							 // Muestra el menú con las opciones del juego
 	void printBoard();
 	void printStatistics();
+	void countCellsAlive();
 };
 
 #endif

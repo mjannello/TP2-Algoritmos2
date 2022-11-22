@@ -6,7 +6,8 @@ using namespace std;
 Game::Game()
 {
 	round = 0;
-	cellsAlive = 0;
+	cellsAliveThisRound = 0;
+	cellsAliveLastRound = 0;
 	cellsBornThisRound = 0;
 	cellsDiedThisRound = 0;
 	totalCellsBorn = 0;
@@ -125,7 +126,18 @@ void Game::setConfigTwo()
 
 void Game::nextRound()
 {
+	this->round++;
+	this->cellsAliveLastRound = this->cellsAliveThisRound;
+	this->cellsAliveThisRound = 0;
 	this->board->defineNewStates();
+	this->countCellsAlive();
+	this->cellsBornThisRound = (this->cellsAliveThisRound - this->cellsAliveLastRound) > 0 ? (this->cellsAliveThisRound - this->cellsAliveLastRound) : 0;
+	this->cellsDiedThisRound = (this->cellsAliveLastRound - this->cellsAliveThisRound) > 0 ? (this->cellsAliveLastRound - this->cellsAliveThisRound) : 0;
+	this->totalCellsBorn += this->cellsBornThisRound;
+	this->totalCellsDied += this->cellsDiedThisRound;
+	this->gameChangedLastRound = this->gameChangedThisRound;
+	this->gameChangedThisRound = cellsAliveThisRound != cellsAliveLastRound;
+
 	this->printBoard();
 	this->printStatistics();
 	this->showOptionsMenu();
@@ -134,7 +146,8 @@ void Game::nextRound()
 void Game::initializeGame()
 {
 	this->round = 0;
-	this->cellsAlive = 0;
+	this->cellsAliveThisRound = 0;
+	this->cellsAliveLastRound = 0;
 	this->cellsBornThisRound = 0;
 	this->cellsDiedThisRound = 0;
 	this->totalCellsBorn = 0;
@@ -147,7 +160,8 @@ void Game::initializeGame()
 
 	if (this->board)
 	{
-		delete board;
+		delete this->board;
+		this->board = NULL;
 	}
 
 	this->showInitializationMenu();
@@ -345,7 +359,7 @@ void Game::printBoard()
 // Imprime las estadísticas
 void Game::printStatistics()
 {
-	cout << "Cantidad de células vivas: " << this->cellsAlive << endl;
+	cout << "Cantidad de células vivas: " << this->cellsAliveThisRound << endl;
 	cout << "Cantidad de células que nacieron en este turno: " << this->cellsBornThisRound << endl;
 	cout << "Cantidad de células que murieron en este turno: " << this->cellsDiedThisRound << endl;
 
@@ -363,3 +377,21 @@ void Game::printStatistics()
 
 	cout << endl;
 };
+
+void Game::countCellsAlive()
+{
+	for (int i = 1; i <= this->getBoard()->getWidth(); i++)
+	{
+		for (int k = 1; k <= this->getBoard()->getLength(); k++)
+		{
+			for (int j = 1; j <= this->getBoard()->getHeight(); j++)
+			{
+				int state = this->getBoard()->getBox(i, j, k)->getData()->getState();
+				if (state == ALIVE)
+				{
+					this->cellsAliveThisRound++;
+				}
+			}
+		}
+	}
+}
