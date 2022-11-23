@@ -92,7 +92,7 @@ void Game::askPositionForSingleCellAlive() {
 		cin >> z;
 	}
 
-	this->board->fillBox(x, y, z, new NormalCell(new CellGenes(50, 100, 150), ALIVE));
+	this->board->fillBox(x, y, z, new NormalCell(ALIVE));
 }
 
 void Game::askPositionForAllCellsAlive()
@@ -247,7 +247,7 @@ void Game::showInitializationMenu()
 // Muestra el menú para la inicialización manual del tablero
 void Game::showManualInitializationMenu() {
 	this->askBoardSize();
-	this->board->fillCompletelyWith(new NormalCell(new CellGenes(0, 0, 0), DEAD));
+	this->board->fillCompletelyWith(new NormalCell(DEAD));
 	this->askInitialCellsAlive();
 	this->askPositionForAllCellsAlive();
 }
@@ -396,32 +396,32 @@ void Game::setConfigOne()
 	List<Cell*>* cells = new List<Cell*>();
 	for (int i = 1; i <= 30; i++)
 	{
-		cells->add(new NormalCell(new CellGenes(0, 250, 0), ALIVE));
+		cells->add(new NormalCell(ALIVE));
 	}
 	for (int i = 1; i <= 20; i++)
 	{
-		cells->add(new RadioactiveCell(new CellGenes(250, 0, 0), ALIVE));
+		cells->add(new RadioactiveCell(ALIVE));
 	}
 	for (int i = 1; i <= 10; i++)
 	{
-		cells->add(new NormalCell(new CellGenes(), DEAD));
+		cells->add(new NormalCell(DEAD));
 	}
 	for (int i = 1; i <= 25; i++)
 	{
-		cells->add(new ZombieCell(new CellGenes(0, 0, 250), ALIVE));
+		cells->add(new ZombieCell(ALIVE));
 	}
 	for (int i = 1; i <= 20; i++)
 	{
-		cells->add(new RadioactiveCell(new CellGenes(), DEAD));
+		cells->add(new RadioactiveCell(DEAD));
 	}
 	for (int i = 1; i <= 10; i++)
 	{
-		cells->add(new NormalCell(new CellGenes(239, 247, 10), ALIVE));
+		cells->add(new NormalCell(ALIVE));
 	}
 	for (int i = 1; i <= 5; i++)
 	{
-		PortalChildCell* portalChild = new PortalChildCell(new CellGenes(), ALIVE);
-		PortalFatherCell* portalFather = new PortalFatherCell(portalChild, new CellGenes(), ALIVE);
+		PortalChildCell* portalChild = new PortalChildCell(ALIVE);
+		PortalFatherCell* portalFather = new PortalFatherCell(portalChild, ALIVE);
 		cells->add(portalChild);
 		cells->add(portalFather);
 	}
@@ -435,15 +435,15 @@ void Game::setConfigTwo()
 	List<Cell*>* cells = new List<Cell*>();
 	for (int i = 1; i <= 9; i++)
 	{
-		cells->add(new NormalCell(new CellGenes(250, 250, 0), ALIVE));
+		cells->add(new NormalCell(ALIVE));
 	}
 	for (int i = 1; i <= 9; i++)
 	{
-		cells->add(new RadioactiveCell(new CellGenes(250, 0, 0), ALIVE));
+		cells->add(new RadioactiveCell(ALIVE));
 	}
 	for (int i = 1; i <= 9; i++)
 	{
-		cells->add(new NormalCell(new CellGenes(), DEAD));
+		cells->add(new NormalCell(DEAD));
 	}
 
 	this->board->fillWith(cells);
@@ -452,10 +452,17 @@ void Game::setConfigTwo()
 void Game::setConfigThree()
 {
 	setBoard(3, 3, 3);
-	this->board->fillCompletelyWith(new NormalCell(new CellGenes(0, 0, 0), DEAD));
-	PortalChildCell* portalChild = new PortalChildCell(new CellGenes(0,255,0), ALIVE);
-	PortalFatherCell* portalFather = new PortalFatherCell(portalChild, new CellGenes(0, 255, 0), ALIVE);
+	this->board->fillCompletelyWith(new NormalCell(DEAD));
+	PortalChildCell* portalChild = new PortalChildCell(ALIVE);
+	PortalFatherCell* portalFather = new PortalFatherCell(portalChild, ALIVE);
+	RadioactiveCell* radioactive = new RadioactiveCell(ALIVE);
+	ScaloCell* scaloni = new ScaloCell(ALIVE);
+	ZombieCell* zombie = new ZombieCell(ALIVE);
 	this->board->fillBox(1,1,1, portalFather);
+	this->board->fillBox(2,2,2, radioactive);
 	this->board->fillBox(3,3,3, portalChild);
+	this->board->fillBox(1, 1, 2, scaloni);
+	this->board->fillBox(1, 1, 3, zombie);
+
 
 }

@@ -26,6 +26,7 @@ private:
 	int maxNeighboursToDie;
 public:
 	Cell(CellGenes* genes = new CellGenes(), CellState newState = DEAD);
+	Cell(CellState newState = DEAD);
 	~Cell();
 	CellState getState();
 	void setState(CellState newState);
@@ -51,19 +52,19 @@ public:
 
 class NormalCell : public Cell {
 public:
-	NormalCell(CellGenes* genes, CellState state);
+	NormalCell(CellState state);
 	void applyNextStateStrategy(List<Cell*>* neighboursCells);
 };
 
 class RadioactiveCell : public Cell {
 public:
-	RadioactiveCell(CellGenes* genes, CellState state);
+	RadioactiveCell(CellState state);
 	void applyNextStateStrategy(List<Cell*>* neighboursCells);
 };
 
 class PortalChildCell : public Cell {
 public:
-	PortalChildCell(CellGenes* genes, CellState state);
+	PortalChildCell(CellState state);
 	void applyNextStateStrategy(List<Cell*>* neighboursCells);
 };
 
@@ -72,7 +73,7 @@ class PortalFatherCell : public Cell {
 private:
 	PortalChildCell* childCell;
 public:
-	PortalFatherCell(PortalChildCell* child, CellGenes* genes, CellState state);
+	PortalFatherCell(PortalChildCell* child,CellState state);
 	void setPortalChildCell(PortalChildCell* child);
 	void applyNextStateStrategy(List<Cell*>* neighboursCells);
 };
@@ -80,13 +81,13 @@ public:
 
 class ScaloCell : public Cell {
 public:
-	ScaloCell(CellGenes* genes, CellState state);
+	ScaloCell(CellState state);
 	void applyNextStateStrategy(List<Cell*>* neighboursCells);
 };
 
 class ZombieCell : public Cell {
 public:
-	ZombieCell(CellGenes* genes, CellState state);
+	ZombieCell(CellState state);
 	void applyNextStateStrategy(List<Cell*>* neighboursCells);
 };
 

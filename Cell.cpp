@@ -9,7 +9,17 @@ Cell::Cell(CellGenes* genes, CellState newState)
     this->nextState = newState;
 
     this->neighboursToBorn = 5;
-    this->minNeighboursToDie = 7;
+    this->minNeighboursToDie = 1;
+    this->maxNeighboursToDie = 20;
+}
+
+Cell::Cell(CellState newState)
+{
+    this->state = newState;
+    this->nextState = newState;
+
+    this->neighboursToBorn = 5;
+    this->minNeighboursToDie = 1;
     this->maxNeighboursToDie = 20;
 }
 
@@ -101,7 +111,8 @@ TransitionState Cell::switchStates() {
    
 
 
-RadioactiveCell::RadioactiveCell(CellGenes* genes, CellState state) : Cell(genes, state) {
+RadioactiveCell::RadioactiveCell(CellState state) : Cell(state) {
+    this->setGenes(new CellGenes(255, 0, 0));
     this->setBehaviour(new RadiactiveBehaviour());
 }
 
@@ -118,7 +129,8 @@ void RadioactiveCell::applyNextStateStrategy(List<Cell*>* neighboursCells) {
 
 }
 
-PortalFatherCell::PortalFatherCell(PortalChildCell* child, CellGenes* genes, CellState state) : Cell(genes, state) {
+PortalFatherCell::PortalFatherCell(PortalChildCell* child,CellState state) : Cell(state) {
+    this->setGenes(new CellGenes(0, 0, 255));
     this->setBehaviour(new PortalBehaviour());
     this->setPortalChildCell(child);
 }
@@ -132,16 +144,19 @@ void PortalFatherCell::applyNextStateStrategy(List<Cell*>* neighboursCells) {
     // evaluar mi proximo estado
     defineNextState(countCellsAliveIn(neighboursCells));
     //aplicarme los comportamientos de mis vecinos
-    for (unsigned int i = 1; i <= neighboursCells->countElements(); i++)
-    {
-        Cell* neighbourCell = neighboursCells->get(i);
-        neighbourCell->applyBehaviour(this);
+    if (this->getNextState() == ALIVE) {
+        for (unsigned int i = 1; i <= neighboursCells->countElements(); i++)
+        {
+            Cell* neighbourCell = neighboursCells->get(i);
+            neighbourCell->applyBehaviour(this);
+        }
     }
     this->childCell->setNextState(this->getNextState());
     this->childCell->setGenes(this->getGenes());
 }
 
-PortalChildCell::PortalChildCell(CellGenes* genes, CellState state) : Cell(genes, state) {
+PortalChildCell::PortalChildCell(CellState state) : Cell(state) {
+    this->setGenes(new CellGenes(0, 255, 255));
     this->setBehaviour(new PortalBehaviour());
 }
 
@@ -150,22 +165,26 @@ void PortalChildCell::applyNextStateStrategy(List<Cell*>* neighboursCells)
     // don't have any particular next state strategy. It reflects whatever happens to its father
 }
 
-ScaloCell::ScaloCell(CellGenes* genes, CellState state) : Cell(genes, state) {
+ScaloCell::ScaloCell(CellState state) : Cell(state) {
+    this->setGenes(new CellGenes(0, 255, 0));
     this->setBehaviour(new ScaloCellBehaviour());
 }
 
 void ScaloCell::applyNextStateStrategy(List<Cell*>* neighboursCells)
 {
     this->setNextState(ALIVE);
-    for (unsigned int i = 1; i <= neighboursCells->countElements(); i++)
-    {
-        Cell* neighbourCell = neighboursCells->get(i);
-        neighbourCell->applyBehaviour(this);
+    if (this->getNextState() == ALIVE) {
+        for (unsigned int i = 1; i <= neighboursCells->countElements(); i++)
+        {
+            Cell* neighbourCell = neighboursCells->get(i);
+            neighbourCell->applyBehaviour(this);
+        }
     }
 
 }
 
-ZombieCell::ZombieCell(CellGenes* genes, CellState state) : Cell(genes, state) {
+ZombieCell::ZombieCell(CellState state) : Cell(state) {
+    this->setGenes(new CellGenes(0, 0, 0));
     this->setBehaviour(new ZombieBehaviour());
 }
 
@@ -174,14 +193,17 @@ void ZombieCell::applyNextStateStrategy(List<Cell*>* neighboursCells)
     // evaluar mi proximo estado
     defineNextState(countCellsAliveIn(neighboursCells));
     //aplicarme los comportamientos de mis vecinos
-    for (unsigned int i = 1; i <= neighboursCells->countElements(); i++)
-    {
-        Cell* neighbourCell = neighboursCells->get(i);
-        neighbourCell->applyBehaviour(this);
+    if (this->getNextState() == ALIVE) {
+        for (unsigned int i = 1; i <= neighboursCells->countElements(); i++)
+        {
+            Cell* neighbourCell = neighboursCells->get(i);
+            neighbourCell->applyBehaviour(this);
+        }
     }
 }
 
-NormalCell::NormalCell(CellGenes* genes, CellState state) : Cell(genes, state) {
+NormalCell::NormalCell(CellState state) : Cell(state) {
+    this->setGenes(new CellGenes(255, 255, 0));
     this->setBehaviour(new NormalBehaviour());
 }
 
@@ -190,9 +212,11 @@ void NormalCell::applyNextStateStrategy(List<Cell*>* neighboursCells)
     // evaluar mi proximo estado
     defineNextState(countCellsAliveIn(neighboursCells));
     //aplicarme los comportamientos de mis vecinos
-    for (unsigned int i = 1; i <= neighboursCells->countElements(); i++)
-    {
-        Cell* neighbourCell = neighboursCells->get(i);
-        neighbourCell->applyBehaviour(this);
+    if (this->getNextState() == ALIVE) {
+        for (unsigned int i = 1; i <= neighboursCells->countElements(); i++)
+        {
+            Cell* neighbourCell = neighboursCells->get(i);
+            neighbourCell->applyBehaviour(this);
+        }
     }
 }
