@@ -25,13 +25,13 @@ class Game
 private:
 	Board<Cell*>* board;
 	int round;
-	int cellsAlive;
 	int cellsBornThisRound;
 	int cellsDiedThisRound;
 	int totalCellsBorn;
 	int totalCellsDied;
 	float meanBirths;
 	float meanDeaths;
+	int roundsFrozen;
 	bool gameChangedLastRound;
 	bool gameChangedThisRound;
 	bool isGameFrozen;
@@ -60,8 +60,11 @@ public:
 	void showEndingGameMessage();
 	void showGameStatus();
 	int countCellsAlive();
+	void cleanLastTransitions();
 	void updateCellsStates();
 	void countTransitions(TransitionState transition);
+	void updateFrozenState();
+	void updateTotalTransitions();
 };
 
 #endif

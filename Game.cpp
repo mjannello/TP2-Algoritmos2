@@ -6,13 +6,13 @@ using namespace std;
 Game::Game()
 {
 	round = 0;
-	cellsAlive = 0;
 	cellsBornThisRound = 0;
 	cellsDiedThisRound = 0;
 	totalCellsBorn = 0;
 	totalCellsDied = 0;
 	meanBirths = 0;
 	meanDeaths = 0;
+	roundsFrozen = 0;
 	gameChangedLastRound = false;
 	gameChangedThisRound = false;
 	isGameFrozen = false;
@@ -61,7 +61,7 @@ void Game::askInitialCellsAlive() {
 		cin >> numberOfCells;
 	}
 	cout << endl;
-	this->cellsAlive = numberOfCells;
+	
 }
 
 void Game::askPositionForSingleCellAlive() {
@@ -98,7 +98,7 @@ void Game::askPositionForSingleCellAlive() {
 void Game::askPositionForAllCellsAlive()
 {
 	int x,y,z; 
-	for (int i = 1; i <= this->cellsAlive; i++)
+	for (int i = 1; i <= this->countCellsAlive(); i++)
 	{
 		cout << "Ingrese la posición de la celúla n° " << i << endl;
 		this->askPositionForSingleCellAlive();
@@ -143,7 +143,6 @@ void Game::setConfigOne()
 	}
 
 	this->board->fillWith(cells);
-	this->cellsAlive = this->countCellsAlive();
 }
 
 int Game::countCellsAlive() {
@@ -181,14 +180,27 @@ void Game::setConfigTwo()
 	}
 
 	this->board->fillWith(cells);
-	this->cellsAlive = this->countCellsAlive();
 }
 
 void Game::nextRound()
 {
+	this->cleanLastTransitions();
 	this->board->defineNewStates();
 	this->updateCellsStates();
+	this->updateTotalTransitions();
+
+	this->updateFrozenState();
 	this->round++;
+}
+void Game::cleanLastTransitions() {
+	this->cellsBornThisRound = 0;
+	this->cellsDiedThisRound = 0;
+}
+
+void Game::updateTotalTransitions() {
+	this->totalCellsBorn += this->cellsBornThisRound;
+	this->totalCellsDied += this->cellsDiedThisRound;
+
 }
 
 void Game::updateCellsStates() {
@@ -217,13 +229,13 @@ void Game::countTransitions(TransitionState transition) {
 void Game::initializeGame()
 {
 	this->round = 0;
-	this->cellsAlive = 0;
 	this->cellsBornThisRound = 0;
 	this->cellsDiedThisRound = 0;
 	this->totalCellsBorn = 0;
 	this->totalCellsDied = 0;
 	this->meanBirths = 0;
 	this->meanDeaths = 0;
+	this->roundsFrozen = 0;
 	this->gameChangedLastRound = false;
 	this->gameChangedThisRound = false;
 	this->isGameFrozen = false;
@@ -365,7 +377,9 @@ void Game::printBoard()
 		{
 			for (int j = 1; j <= this->getBoard()->getHeight(); j++)
 			{
-				int* genes = this->getBoard()->getBox(i, j, k)->getData()->getGenes()->getGenesValues();
+				Cell* cell = this->getBoard()->getBox(i, j, k)->getData();
+				int deadCellGenes[3] = {90,90,90};
+				int* genes = cell->isAlive() ? cell->getGenes()->getGenesValues() : deadCellGenes;
 				RGBApixel NewColor;
 				NewColor.Red = genes[0];
 				NewColor.Green = genes[1];
@@ -404,22 +418,31 @@ void Game::printBoard()
 // Imprime las estadísticas
 void Game::printStatistics()
 {
-	cout << "Cantidad de células vivas: " << this->cellsAlive << endl;
+	float meanDeaths = this->round == 0 ? (float)this->totalCellsDied : this->totalCellsDied / this->round;
+	float meanBirths = this->round == 0 ? (float)this->totalCellsBorn : this->totalCellsBorn / this->round;
+	cout << "Turno: " << this->round << endl;
+	cout << "Cantidad de células vivas: " << this->countCellsAlive() << endl;
 	cout << "Cantidad de células que nacieron en este turno: " << this->cellsBornThisRound << endl;
 	cout << "Cantidad de células que murieron en este turno: " << this->cellsDiedThisRound << endl;
-
-	this->meanBirths = static_cast<float>(this->totalCellsBorn) / static_cast<float>(this->round);
-	cout << "Promedio de nacimientos: " << this->meanBirths << endl;
-
-	this->meanDeaths = static_cast<float>(this->totalCellsDied) / static_cast<float>(this->round);
-	float promedioMuertes = this->round == 0 ? (float)totalCellsDied : totalCellsDied / round;
-	cout << "Promedio de muertes: " << this->meanDeaths << endl;
-
-	if (this->gameChangedLastRound == false && this->gameChangedThisRound == false)
-	{
-		this->isGameFrozen = true;
-	}
-	cout << "El juego se congeló: " << (this->isGameFrozen == true ? "Sí" : "No") << endl;
+	cout << "Promedio de nacimientos: " << meanBirths << endl;
+	cout << "Promedio de muertes: " << meanDeaths << endl;
+	cout << "Juego congelado: " << (this->isGameFrozen == true ? "Sí" : "No") << endl;
 
 	cout << endl;
 };
+
+
+void Game::updateFrozenState() {
+	
+	if (this->cellsBornThisRound == 0 && this->cellsDiedThisRound == 0) {
+		this->roundsFrozen += 1;
+		if (this->roundsFrozen >= 2) {
+			this->isGameFrozen=true;
+		}
+	}
+	else {
+		this->roundsFrozen = 0;
+		this->isGameFrozen=false;
+	}
+
+}

@@ -6,10 +6,11 @@ Cell::Cell(CellGenes* genes, CellState newState)
 {
     this->genes = genes;
     this->state = newState;
+    this->nextState = newState;
 
     this->neighboursToBorn = 5;
     this->minNeighboursToDie = 7;
-    this->maxNeighboursToDie = 15;
+    this->maxNeighboursToDie = 20;
 }
 
 Cell::~Cell() {}
@@ -83,6 +84,7 @@ int Cell::getAmountCellsAlive(List<Cell*>* cells) {
 void Cell::setNeighboursToBorn(int neighboursToBorn) { this->neighboursToBorn = neighboursToBorn; }
 void Cell::setMinNeighboursToDie(int minNeighboursToDie) { this->minNeighboursToDie = minNeighboursToDie; }
 void Cell::setMaxNeighboursToDie(int miaxNeighboursToDie) { this->maxNeighboursToDie = maxNeighboursToDie; }
+
 TransitionState Cell::switchStates() {
     
     TransitionState transition = NO_CHANGE;
@@ -90,7 +92,7 @@ TransitionState Cell::switchStates() {
         transition = NEW_DEATH;
     }
     if (this->state == DEAD && this->nextState == ALIVE) {
-        transition = NEW_DEATH;
+        transition = NEW_BORN;
     }
     this->state = this->nextState;
     return transition;
