@@ -6,6 +6,9 @@ CellGenes::CellGenes() {
     int genes[3] = { 100,100,100 };
     setGenesValues(genes);
 }
+
+CellGenes::~CellGenes() {}
+
 CellGenes::CellGenes(int genes[]) {
     setGenesValues(genes);
 }

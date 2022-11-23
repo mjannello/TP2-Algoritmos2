@@ -25,8 +25,8 @@ class Game
 private:
 	Board<Cell*>* board;
 	int round;
-	int cellsBornThisRound;
-	int cellsDiedThisRound;
+	int cellsBornLastRound;
+	int cellsDiedLastRound;
 	int totalCellsBorn;
 	int totalCellsDied;
 	float meanBirths;
@@ -45,8 +45,7 @@ public:
 	void setBoard(int width, int large, int height);
 	void initializeGame();
 	void nextRound();
-	void setConfigOne();
-	void setConfigTwo();
+
 	void showInitializationMenu();			 // Muestra el menú para la inicialización del tablero
 	void showManualInitializationMenu(); // Muestra el menú para la inicialización manual del tablero
 	void showOptionsMenu();							 // Muestra el menú con las opciones del juego
@@ -65,6 +64,9 @@ public:
 	void countTransitions(TransitionState transition);
 	void updateFrozenState();
 	void updateTotalTransitions();
+	void setConfigOne();
+	void setConfigTwo();
+	void setConfigThree();
 };
 
 #endif

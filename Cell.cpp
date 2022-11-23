@@ -70,7 +70,7 @@ void Cell::defineNextState(int amountNeighboursAlive) {
     }
 }
 
-int Cell::getAmountCellsAlive(List<Cell*>* cells) {
+int Cell::countCellsAliveIn(List<Cell*>* cells) {
     int cellsAlive = 0;
     for (unsigned int i = 1; i <= cells->countElements(); i++)
     {
@@ -108,7 +108,7 @@ RadioactiveCell::RadioactiveCell(CellGenes* genes, CellState state) : Cell(genes
 
 void RadioactiveCell::applyNextStateStrategy(List<Cell*>* neighboursCells) {
     // evaluar mi proximo estado
-    defineNextState(getAmountCellsAlive(neighboursCells));
+    defineNextState(countCellsAliveIn(neighboursCells));
     //aplicarme los comportamientos de mis vecinos
     for (unsigned int i = 1; i <= neighboursCells->countElements(); i++)
     {
@@ -130,7 +130,7 @@ void PortalFatherCell::setPortalChildCell(PortalChildCell* child)
 
 void PortalFatherCell::applyNextStateStrategy(List<Cell*>* neighboursCells) {
     // evaluar mi proximo estado
-    defineNextState(getAmountCellsAlive(neighboursCells));
+    defineNextState(countCellsAliveIn(neighboursCells));
     //aplicarme los comportamientos de mis vecinos
     for (unsigned int i = 1; i <= neighboursCells->countElements(); i++)
     {
@@ -147,6 +147,7 @@ PortalChildCell::PortalChildCell(CellGenes* genes, CellState state) : Cell(genes
 
 void PortalChildCell::applyNextStateStrategy(List<Cell*>* neighboursCells)
 {
+    // don't have any particular next state strategy. It reflects whatever happens to its father
 }
 
 ScaloCell::ScaloCell(CellGenes* genes, CellState state) : Cell(genes, state) {
@@ -171,7 +172,7 @@ ZombieCell::ZombieCell(CellGenes* genes, CellState state) : Cell(genes, state) {
 void ZombieCell::applyNextStateStrategy(List<Cell*>* neighboursCells)
 {
     // evaluar mi proximo estado
-    defineNextState(getAmountCellsAlive(neighboursCells));
+    defineNextState(countCellsAliveIn(neighboursCells));
     //aplicarme los comportamientos de mis vecinos
     for (unsigned int i = 1; i <= neighboursCells->countElements(); i++)
     {
@@ -187,7 +188,7 @@ NormalCell::NormalCell(CellGenes* genes, CellState state) : Cell(genes, state) {
 void NormalCell::applyNextStateStrategy(List<Cell*>* neighboursCells)
 {
     // evaluar mi proximo estado
-    defineNextState(getAmountCellsAlive(neighboursCells));
+    defineNextState(countCellsAliveIn(neighboursCells));
     //aplicarme los comportamientos de mis vecinos
     for (unsigned int i = 1; i <= neighboursCells->countElements(); i++)
     {

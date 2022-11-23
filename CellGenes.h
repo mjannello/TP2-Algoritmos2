@@ -6,6 +6,7 @@ private:
 	int genes[GENES_QUANTITY];
 public:
 	CellGenes();
+	~CellGenes();
 	CellGenes(int genes[]);
 	CellGenes(int red, int green, int blue);
 	void setGenesValues(int gen[]);

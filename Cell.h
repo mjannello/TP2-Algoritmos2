@@ -27,20 +27,21 @@ private:
 public:
 	Cell(CellGenes* genes = new CellGenes(), CellState newState = DEAD);
 	~Cell();
-	void setState(CellState newState);
-	void setNextState(CellState newState);
 	CellState getState();
+	void setState(CellState newState);
 	CellState getNextState();
-	bool isAlive();
-	void applyBehaviour(Cell* otherCell);
-	void setBehaviour(CellBehaviour* behaviour);
+	void setNextState(CellState newState);
 	CellGenes* getGenes();
 	void setGenes(CellGenes* genes);
-	void defineNextState(int amountNeighboursAlive);
+	int countCellsAliveIn(List<Cell*>* cells);
 	void setNeighboursToBorn(int neighboursToBorn);
 	void setMinNeighboursToDie(int minNeighboursToDie);
 	void setMaxNeighboursToDie(int miaxNeighboursToDie);
-	int getAmountCellsAlive(List<Cell*>* cells);
+	bool isAlive();
+	void setBehaviour(CellBehaviour* behaviour);
+	void applyBehaviour(Cell* otherCell);
+	void defineNextState(int amountNeighboursAlive);
+	
 	TransitionState switchStates();
 
 	virtual void applyNextStateStrategy(List<Cell*>* neighboursCells) = 0;

@@ -6,8 +6,8 @@ using namespace std;
 Game::Game()
 {
 	round = 0;
-	cellsBornThisRound = 0;
-	cellsDiedThisRound = 0;
+	cellsBornLastRound = 0;
+	cellsDiedLastRound = 0;
 	totalCellsBorn = 0;
 	totalCellsDied = 0;
 	meanBirths = 0;
@@ -97,7 +97,6 @@ void Game::askPositionForSingleCellAlive() {
 
 void Game::askPositionForAllCellsAlive()
 {
-	int x,y,z; 
 	for (int i = 1; i <= this->countCellsAlive(); i++)
 	{
 		cout << "Ingrese la posición de la celúla n° " << i << endl;
@@ -106,44 +105,6 @@ void Game::askPositionForAllCellsAlive()
 
 }
 
-void Game::setConfigOne()
-{
-	setBoard(5, 5, 5);
-	List<Cell*>* cells = new List<Cell*>();
-	for (int i = 1; i <= 30; i++)
-	{
-		cells->add(new NormalCell(new CellGenes(0, 250, 0), ALIVE));
-	}
-	for (int i = 1; i <= 20; i++)
-	{
-		cells->add(new RadioactiveCell(new CellGenes(250, 0, 0), ALIVE));
-	}
-	for (int i = 1; i <= 10; i++)
-	{
-		cells->add(new NormalCell(new CellGenes(), DEAD));
-	}
-	for (int i = 1; i <= 25; i++)
-	{
-		cells->add(new ZombieCell(new CellGenes(0, 0, 250), ALIVE));
-	}
-	for (int i = 1; i <= 20; i++)
-	{
-		cells->add(new RadioactiveCell(new CellGenes(), DEAD));
-	}
-	for (int i = 1; i <= 10; i++)
-	{
-		cells->add(new NormalCell(new CellGenes(239, 247, 10), ALIVE));
-	}
-	for (int i = 1; i <= 5; i++)
-	{
-		PortalChildCell* portalChild = new PortalChildCell(new CellGenes(), ALIVE);
-		PortalFatherCell* portalFather = new PortalFatherCell(portalChild, new CellGenes(), ALIVE);
-		cells->add(portalChild);
-		cells->add(portalFather);
-	}
-
-	this->board->fillWith(cells);
-}
 
 int Game::countCellsAlive() {
 	int cellsAlive = 0;
@@ -162,25 +123,7 @@ int Game::countCellsAlive() {
 	return cellsAlive;
 }
 
-void Game::setConfigTwo()
-{
-	setBoard(3, 3, 3);
-	List<Cell*>* cells = new List<Cell*>();
-	for (int i = 1; i <= 9; i++)
-	{
-		cells->add(new NormalCell(new CellGenes(250, 250, 0), ALIVE));
-	}
-	for (int i = 1; i <= 9; i++)
-	{
-		cells->add(new RadioactiveCell(new CellGenes(250, 0, 0), ALIVE));
-	}
-	for (int i = 1; i <= 9; i++)
-	{
-		cells->add(new NormalCell(new CellGenes(), DEAD));
-	}
 
-	this->board->fillWith(cells);
-}
 
 void Game::nextRound()
 {
@@ -193,13 +136,13 @@ void Game::nextRound()
 	this->round++;
 }
 void Game::cleanLastTransitions() {
-	this->cellsBornThisRound = 0;
-	this->cellsDiedThisRound = 0;
+	this->cellsBornLastRound = 0;
+	this->cellsDiedLastRound = 0;
 }
 
 void Game::updateTotalTransitions() {
-	this->totalCellsBorn += this->cellsBornThisRound;
-	this->totalCellsDied += this->cellsDiedThisRound;
+	this->totalCellsBorn += this->cellsBornLastRound;
+	this->totalCellsDied += this->cellsDiedLastRound;
 
 }
 
@@ -219,18 +162,18 @@ void Game::updateCellsStates() {
 
 void Game::countTransitions(TransitionState transition) {
 	if (transition==NEW_BORN) {
-		this->cellsBornThisRound++;
+		this->cellsBornLastRound++;
 	}
 	if (transition == NEW_DEATH) {
-		this->cellsDiedThisRound++;
+		this->cellsDiedLastRound++;
 	}
 }
 
 void Game::initializeGame()
 {
 	this->round = 0;
-	this->cellsBornThisRound = 0;
-	this->cellsDiedThisRound = 0;
+	this->cellsBornLastRound = 0;
+	this->cellsDiedLastRound = 0;
 	this->totalCellsBorn = 0;
 	this->totalCellsDied = 0;
 	this->meanBirths = 0;
@@ -290,7 +233,7 @@ void Game::showInitializationMenu()
 		this->setConfigTwo();
 		break;
 	case CONFIG_THREE:
-		cout << "Aun no hay configuracion 3"<<endl;
+		this->setConfigThree();
 		break;
 	default:
 		break;
@@ -422,8 +365,8 @@ void Game::printStatistics()
 	float meanBirths = this->round == 0 ? (float)this->totalCellsBorn : this->totalCellsBorn / this->round;
 	cout << "Turno: " << this->round << endl;
 	cout << "Cantidad de células vivas: " << this->countCellsAlive() << endl;
-	cout << "Cantidad de células que nacieron en este turno: " << this->cellsBornThisRound << endl;
-	cout << "Cantidad de células que murieron en este turno: " << this->cellsDiedThisRound << endl;
+	cout << "Cantidad de células que nacieron en este turno: " << this->cellsBornLastRound << endl;
+	cout << "Cantidad de células que murieron en este turno: " << this->cellsDiedLastRound << endl;
 	cout << "Promedio de nacimientos: " << meanBirths << endl;
 	cout << "Promedio de muertes: " << meanDeaths << endl;
 	cout << "Juego congelado: " << (this->isGameFrozen == true ? "Sí" : "No") << endl;
@@ -434,7 +377,7 @@ void Game::printStatistics()
 
 void Game::updateFrozenState() {
 	
-	if (this->cellsBornThisRound == 0 && this->cellsDiedThisRound == 0) {
+	if (this->cellsBornLastRound == 0 && this->cellsDiedLastRound == 0) {
 		this->roundsFrozen += 1;
 		if (this->roundsFrozen >= 2) {
 			this->isGameFrozen=true;
@@ -444,5 +387,75 @@ void Game::updateFrozenState() {
 		this->roundsFrozen = 0;
 		this->isGameFrozen=false;
 	}
+
+}
+
+void Game::setConfigOne()
+{
+	setBoard(5, 5, 5);
+	List<Cell*>* cells = new List<Cell*>();
+	for (int i = 1; i <= 30; i++)
+	{
+		cells->add(new NormalCell(new CellGenes(0, 250, 0), ALIVE));
+	}
+	for (int i = 1; i <= 20; i++)
+	{
+		cells->add(new RadioactiveCell(new CellGenes(250, 0, 0), ALIVE));
+	}
+	for (int i = 1; i <= 10; i++)
+	{
+		cells->add(new NormalCell(new CellGenes(), DEAD));
+	}
+	for (int i = 1; i <= 25; i++)
+	{
+		cells->add(new ZombieCell(new CellGenes(0, 0, 250), ALIVE));
+	}
+	for (int i = 1; i <= 20; i++)
+	{
+		cells->add(new RadioactiveCell(new CellGenes(), DEAD));
+	}
+	for (int i = 1; i <= 10; i++)
+	{
+		cells->add(new NormalCell(new CellGenes(239, 247, 10), ALIVE));
+	}
+	for (int i = 1; i <= 5; i++)
+	{
+		PortalChildCell* portalChild = new PortalChildCell(new CellGenes(), ALIVE);
+		PortalFatherCell* portalFather = new PortalFatherCell(portalChild, new CellGenes(), ALIVE);
+		cells->add(portalChild);
+		cells->add(portalFather);
+	}
+
+	this->board->fillWith(cells);
+}
+
+void Game::setConfigTwo()
+{
+	setBoard(3, 3, 3);
+	List<Cell*>* cells = new List<Cell*>();
+	for (int i = 1; i <= 9; i++)
+	{
+		cells->add(new NormalCell(new CellGenes(250, 250, 0), ALIVE));
+	}
+	for (int i = 1; i <= 9; i++)
+	{
+		cells->add(new RadioactiveCell(new CellGenes(250, 0, 0), ALIVE));
+	}
+	for (int i = 1; i <= 9; i++)
+	{
+		cells->add(new NormalCell(new CellGenes(), DEAD));
+	}
+
+	this->board->fillWith(cells);
+}
+
+void Game::setConfigThree()
+{
+	setBoard(3, 3, 3);
+	this->board->fillCompletelyWith(new NormalCell(new CellGenes(0, 0, 0), DEAD));
+	PortalChildCell* portalChild = new PortalChildCell(new CellGenes(0,255,0), ALIVE);
+	PortalFatherCell* portalFather = new PortalFatherCell(portalChild, new CellGenes(0, 255, 0), ALIVE);
+	this->board->fillBox(1,1,1, portalFather);
+	this->board->fillBox(3,3,3, portalChild);
 
 }
