@@ -1,6 +1,8 @@
 #include "Game.h"
 #include <string>
 #include <iostream>
+#include <sstream>
+
 using namespace std;
 
 Game::Game()
@@ -314,6 +316,8 @@ void Game::printBoard()
 	// Set its color depth to 8-bits
 	AnImage.SetBitDepth(16);
 
+	ostringstream convert;   // stream used for the conversion
+
 	for (int i = 1; i <= this->getBoard()->getWidth(); i++)
 	{
 		for (int k = 1; k <= this->getBoard()->getLength(); k++)
@@ -348,14 +352,21 @@ void Game::printBoard()
 					}
 				}
 
-				string fileNameStr = "Imagen" + to_string(i) + ".bmp";
+				convert << i;
+
+				string fileNameStr = "Imagen" + convert.str() + ".bmp";
 				const char* fileName = fileNameStr.c_str();
+
+				convert.str(""); // reset the string to be empty
+				convert.clear(); // clear any error flags that may be set
 
 				AnImage.WriteToFile(fileName);
 			}
 		}
 	}
-	cout << "El estado del tablero se muestra en las " + to_string(this->getBoard()->getWidth()) + " imágenes .bmp generadas." << endl;
+	cout << "El estado del tablero se muestra en las ";
+	cout << this->getBoard()->getWidth();
+	cout<< " imágenes .bmp generadas." << endl;
 }
 
 // Imprime las estadísticas
