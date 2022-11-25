@@ -9,8 +9,8 @@ Cell::Cell(CellGenes* genes, CellState newState)
     this->nextState = newState;
 
     this->neighboursToBorn = 5;
-    this->minNeighboursToDie = 1;
-    this->maxNeighboursToDie = 20;
+    this->minNeighboursToDie = 7;
+    this->maxNeighboursToDie = 15;
 }
 
 Cell::Cell(CellState newState)
@@ -19,8 +19,8 @@ Cell::Cell(CellState newState)
     this->nextState = newState;
 
     this->neighboursToBorn = 5;
-    this->minNeighboursToDie = 1;
-    this->maxNeighboursToDie = 20;
+    this->minNeighboursToDie = 7;
+    this->maxNeighboursToDie = 15;
 }
 
 Cell::~Cell() {}
@@ -108,8 +108,6 @@ TransitionState Cell::switchStates() {
     return transition;
 
 }
-   
-
 
 RadioactiveCell::RadioactiveCell(CellState state) : Cell(state) {
     this->setGenes(new CellGenes(255, 0, 0));
@@ -203,7 +201,7 @@ void ZombieCell::applyNextStateStrategy(List<Cell*>* neighboursCells)
 }
 
 NormalCell::NormalCell(CellState state) : Cell(state) {
-    this->setGenes(new CellGenes(255, 255, 0));
+    this->setGenes(new CellGenes(192, 184, 135));
     this->setBehaviour(new NormalBehaviour());
 }
 

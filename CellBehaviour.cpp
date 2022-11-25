@@ -44,7 +44,7 @@ void ScaloCellBehaviour::apply(CellGenes* fatherGenes, CellGenes* childGenes) {
 
 
 void ZombieBehaviour::apply(CellGenes* fatherGenes, CellGenes* childGenes) {
-    int genes[3] = { 0,0,0 };
-    childGenes->setGenesValues(genes);
+    int genes[3] = { 0,0,255 };
+    //childGenes->setGenesValues(genes);
 }
 
