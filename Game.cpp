@@ -15,6 +15,11 @@ Game::Game()
 	meanBirths = 0;
 	meanDeaths = 0;
 	roundsFrozen = 0;
+
+	neighboursToBorn = 0;
+	minNeighboursToDie = 0;
+	maxNeighboursToDie = 0;
+
 	gameChangedLastRound = false;
 	gameChangedThisRound = false;
 	isGameFrozen = false;
@@ -53,7 +58,7 @@ void Game::askBoardSize()
 	this->setBoard(width, large, height);
 }
 
-void Game::askInitialCellsAlive() {
+int Game::askInitialCellsAlive() {
 	int numberOfCells;
 	cout << "Ingrese la cantidad inicial de células vivas en el tablero: ";
 	cin >> numberOfCells;
@@ -63,6 +68,7 @@ void Game::askInitialCellsAlive() {
 		cin >> numberOfCells;
 	}
 	cout << endl;
+	return numberOfCells;
 	
 }
 
@@ -94,18 +100,65 @@ void Game::askPositionForSingleCellAlive() {
 		cin >> z;
 	}
 
+	Cell* cell = new NormalCell(ALIVE);
+	cell->setNeighboursToBorn(this->neighboursToBorn);
+	cell->setMinNeighboursToDie(this->minNeighboursToDie);
+	cell->setMaxNeighboursToDie(this->maxNeighboursToDie);
 	this->board->fillBox(x, y, z, new NormalCell(ALIVE));
 }
 
-void Game::askPositionForAllCellsAlive()
+void Game::askPositionForAllCellsAlive(int cellsAlive)
 {
-	for (int i = 1; i <= this->countCellsAlive(); i++)
+	for (int i = 1; i <= cellsAlive; i++)
 	{
 		cout << "Ingrese la posición de la celúla n° " << i << endl;
 		this->askPositionForSingleCellAlive();
 	}
 
 }
+
+void Game::askNeighboursToBorn(){
+	int neighboursToBorn;
+	cout << "Ingrese la cantidad de células X1 vivas necesarias para nacer: ";
+	cin >> neighboursToBorn;
+	while (!this->board->isValidSize(neighboursToBorn)) {
+		cout << "La cantidad de células ingresadas no es válido para el tamaño del tablero: " << endl;
+		cout << "Ingrese una cantidad de células X1 vivas necesarias para nacer válida: ";
+		cin >> neighboursToBorn;
+	}
+	cout << endl;
+	this->neighboursToBorn = neighboursToBorn;
+}
+
+
+void Game::askMinNeighboursToDie() {
+	int minNeighboursToDie;
+	cout << "Ingrese la cantidad mínima de células X2 vivas necesarias para permanecer viva: ";
+	cin >> minNeighboursToDie;
+	while (!this->board->isValidSize(minNeighboursToDie)) {
+		cout << "La cantidad de células ingresadas no es válido para el tamaño del tablero: " << endl;
+		cout << "Ingrese una cantidad mínima de células X2 vivas necesarias para permanecer viva válida: ";
+		cin >> minNeighboursToDie;
+	}
+	cout << endl;
+	this->minNeighboursToDie = minNeighboursToDie;
+}
+
+
+void Game::askMaxNeighboursToDie() {
+	int maxNeighboursToDie;
+	cout << "Ingrese la cantidad máxima de células X3 vivas necesarias para permanecer viva: ";
+	cin >> maxNeighboursToDie;
+	while (!this->board->isValidSize(maxNeighboursToDie)) {
+		cout << "La cantidad de células ingresadas no es válido para el tamaño del tablero: " << endl;
+		cout << "Ingrese una cantidad máxima de células X3 vivas necesarias para permanecer viva válida: ";
+		cin >> maxNeighboursToDie;
+	}
+	cout << endl;
+	this->maxNeighboursToDie = maxNeighboursToDie;
+
+}
+
 
 
 int Game::countCellsAlive() {
@@ -250,8 +303,12 @@ void Game::showInitializationMenu()
 void Game::showManualInitializationMenu() {
 	this->askBoardSize();
 	this->board->fillCompletelyWith(new NormalCell(DEAD));
-	this->askInitialCellsAlive();
-	this->askPositionForAllCellsAlive();
+	int cellsAlive = this->askInitialCellsAlive();
+	this->askNeighboursToBorn();
+	this->askMinNeighboursToDie();
+	this->askMaxNeighboursToDie();
+	
+	this->askPositionForAllCellsAlive(cellsAlive);
 }
 
 // Muestra el menú con las opciones del juego
@@ -469,11 +526,13 @@ void Game::setConfigThree()
 	RadioactiveCell* radioactive = new RadioactiveCell(ALIVE);
 	ScaloCell* scaloni = new ScaloCell(ALIVE);
 	ZombieCell* zombie = new ZombieCell(ALIVE);
+	AryanCell* aryan = new AryanCell(ALIVE);
 	this->board->fillBox(1,1,1, portalFather);
 	this->board->fillBox(2,2,2, radioactive);
 	this->board->fillBox(3,3,3, portalChild);
-	this->board->fillBox(1, 1, 2, scaloni);
-	this->board->fillBox(1, 1, 3, zombie);
+	this->board->fillBox(1,1,2, scaloni);
+	this->board->fillBox(1,2,1, aryan);
+	this->board->fillBox(1,1,3, zombie);
 
 
 }

@@ -25,10 +25,16 @@ class Game
 private:
 	Board<Cell*>* board;
 	int round;
+	int totalCellsAlive;
 	int cellsBornLastRound;
 	int cellsDiedLastRound;
 	int totalCellsBorn;
 	int totalCellsDied;
+
+	int neighboursToBorn; // X1
+	int minNeighboursToDie; // X2
+	int maxNeighboursToDie; // X3
+	
 	float meanBirths;
 	float meanDeaths;
 	int roundsFrozen;
@@ -52,9 +58,12 @@ public:
 	void printBoard();
 	void printStatistics();
 	
-	void askInitialCellsAlive();
+	int askInitialCellsAlive();
 	void askPositionForSingleCellAlive();
-	void askPositionForAllCellsAlive();
+	void askPositionForAllCellsAlive(int cellsAlive);
+	void askNeighboursToBorn();
+	void askMinNeighboursToDie();
+	void askMaxNeighboursToDie();
 	void endGame();
 	void showEndingGameMessage();
 	void showGameStatus();

@@ -10,7 +10,6 @@ enum CellState {
 	ALIVE
 };
 
-enum CellBehaviours { NORMAL, RADIOACTIVE, PORTAL, ZOMBIE, SCALOCELULA, ARIA };
 enum TransitionState { NO_CHANGE, NEW_BORN, NEW_DEATH};
 
 class Cell
@@ -88,6 +87,12 @@ public:
 class ZombieCell : public Cell {
 public:
 	ZombieCell(CellState state);
+	void applyNextStateStrategy(List<Cell*>* neighboursCells);
+};
+
+class AryanCell : public Cell {
+public:
+	AryanCell(CellState state);
 	void applyNextStateStrategy(List<Cell*>* neighboursCells);
 };
 

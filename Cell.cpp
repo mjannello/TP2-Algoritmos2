@@ -74,7 +74,7 @@ void Cell::defineNextState(int amountNeighboursAlive) {
         this->nextState = ALIVE;
     }
     if (this->state == ALIVE) {
-        if (minNeighboursToDie <= amountNeighboursAlive && amountNeighboursAlive <= maxNeighboursToDie) {
+        if (minNeighboursToDie > amountNeighboursAlive || amountNeighboursAlive > maxNeighboursToDie) {
             this->nextState = DEAD;
         }
     }
@@ -188,7 +188,7 @@ ZombieCell::ZombieCell(CellState state) : Cell(state) {
 
 void ZombieCell::applyNextStateStrategy(List<Cell*>* neighboursCells)
 {
-    // evaluar mi proximo estado
+    // evaluar mi proximo estado a partir de vecinos vivos
     defineNextState(countCellsAliveIn(neighboursCells));
     //aplicarme los comportamientos de mis vecinos
     if (this->getNextState() == ALIVE) {
@@ -206,6 +206,25 @@ NormalCell::NormalCell(CellState state) : Cell(state) {
 }
 
 void NormalCell::applyNextStateStrategy(List<Cell*>* neighboursCells)
+{
+    // evaluar mi proximo estado
+    defineNextState(countCellsAliveIn(neighboursCells));
+    //aplicarme los comportamientos de mis vecinos
+    if (this->getNextState() == ALIVE) {
+        for (unsigned int i = 1; i <= neighboursCells->countElements(); i++)
+        {
+            Cell* neighbourCell = neighboursCells->get(i);
+            neighbourCell->applyBehaviour(this);
+        }
+    }
+}
+
+AryanCell::AryanCell(CellState state) : Cell(state) {
+    this->setGenes(new CellGenes(192, 184, 135));
+    this->setBehaviour(new AryanBehaviour());
+}
+
+void AryanCell::applyNextStateStrategy(List<Cell*>* neighboursCells)
 {
     // evaluar mi proximo estado
     defineNextState(countCellsAliveIn(neighboursCells));
